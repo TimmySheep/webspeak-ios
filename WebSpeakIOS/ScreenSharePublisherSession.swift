@@ -55,7 +55,14 @@ import ScreenCaptureKit
 @available(iOS 27.0, *)
 @MainActor
 final class ScreenCaptureKitPublisherSession: ScreenSharePublisherSession, SCContentSharingPickerObserver, SCStreamOutput, SCStreamDelegate, RTCPeerConnectionDelegate {
-    private let factory = RTCPeerConnectionFactory()
+    private let factory: RTCPeerConnectionFactory = {
+        let encoderFactory = RTCDefaultVideoEncoderFactory()
+        encoderFactory.preferredCodec = RTCVideoCodecInfo(name: "VP8")
+        return RTCPeerConnectionFactory(
+            encoderFactory: encoderFactory,
+            decoderFactory: RTCDefaultVideoDecoderFactory()
+        )
+    }()
     private var captureStream: SCStream?
     private var videoSource: RTCVideoSource?
     private var videoCapturer: RTCVideoCapturer?
@@ -101,7 +108,6 @@ final class ScreenCaptureKitPublisherSession: ScreenSharePublisherSession, SCCon
             status = "無法建立觀看者的 WebRTC 連線。"
             return
         }
-
         let queuedSignals = pendingIncomingSignals.removeValue(forKey: peerID) ?? []
         for signal in queuedSignals { receiveSignal(from: peerID, signal: signal) }
 
@@ -300,8 +306,30 @@ final class ScreenCaptureKitPublisherSession: ScreenSharePublisherSession, SCCon
         else {
             return nil
         }
+        preferVP8ForScreenShare(on: peer)
         peers[peerID] = peer
         return peer
+    }
+
+    private func preferVP8ForScreenShare(on peer: RTCPeerConnection) {
+        let capabilities = factory.rtpSenderCapabilities(forKind: "video").codecs
+        let vp8 = capabilities.filter { $0.mimeType.caseInsensitiveCompare("video/vp8") == .orderedSame }
+        guard !vp8.isEmpty,
+              let transceiver = peer.transceivers.first(where: { $0.sender.track?.kind == "video" })
+        else {
+            logger.warning("VP8 screen-share codec preference is unavailable")
+            return
+        }
+
+        let remaining = capabilities.filter { $0.mimeType.caseInsensitiveCompare("video/vp8") != .orderedSame }
+        do {
+            try transceiver.setCodecPreferences(vp8 + remaining, error: ())
+        } catch {
+            let value = error as NSError
+            logger.warning("Could not apply VP8 screen-share codec preference; domain=\(value.domain, privacy: .public) code=\(value.code, privacy: .public)")
+            return
+        }
+        logger.info("VP8 is prioritized for screen-share negotiation")
     }
 
     private func closePeer(_ peerID: String) {

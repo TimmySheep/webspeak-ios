@@ -6,7 +6,6 @@ struct ConnectionHomeView: View {
     @State private var teamSpeakTarget = ""
     @State private var channel = ""
     @State private var serverPassword = ""
-    @State private var inviteToken = ""
     @State private var rememberIdentity = false
     @State private var advancedOptionsExpanded = false
 
@@ -141,12 +140,6 @@ struct ConnectionHomeView: View {
                         secure: true
                     )
 
-                    IconTextField(
-                        title: "邀请 Token",
-                        placeholder: "可选",
-                        symbol: "ticket",
-                        text: $inviteToken
-                    )
                 }
                 .padding(.top, 15)
             } label: {

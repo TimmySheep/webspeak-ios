@@ -1,0 +1,2775 @@
+{
+  "sourceLanguage" : "zh-Hans",
+  "strings" : {
+    "" : {
+
+    },
+    "—" : {
+
+    },
+    "%@ · %@" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "%@ 的操作" : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld ms" : {
+
+    },
+    "%lld 位观众" : {
+
+    },
+    "%lld%%" : {
+
+    },
+    "3 位成员" : {
+
+    },
+    "Apple 系统语音处理（旧版语音）" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple-Systemsprachverarbeitung (ältere Audioverbindung)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple system voice processing (legacy audio)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple システム音声処理（旧音声経路）"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Системная обработка голоса Apple (старый аудиоканал)"
+          }
+        }
+      }
+    },
+    "Deutsch" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deutsch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "German"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ドイツ語"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Немецкий"
+          }
+        }
+      }
+    },
+    "English" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Englisch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "English"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "英語"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Английский"
+          }
+        }
+      }
+    },
+    "iPhone · iPad" : {
+
+    },
+    "PTT 等待" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PTT bereit"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PTT ready"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PTT 待機中"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PTT готова"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PTT 等待"
+          }
+        }
+      }
+    },
+    "TeamSpeak 会话" : {
+
+    },
+    "WebSpeak 会话" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "WebSpeak-Sitzung" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "WebSpeak session" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "WebSpeak セッション" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Сеанс WebSpeak" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "WebSpeak 会话" } }
+      }
+    },
+    "TeamSpeak 延迟" : {
+
+    },
+    "TeamSpeak 服务器" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TeamSpeak-Server"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TeamSpeak server"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TeamSpeak サーバー"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сервер TeamSpeak"
+          }
+        }
+      }
+    },
+    "VOX 与可切换的系统处理设置仅用于旧版 WebSocket PCM 路径；当前 WebRTC 使用系统 voiceChat 处理。" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VOX und die umschaltbare Systemverarbeitung gelten nur für den älteren WebSocket-PCM-Pfad. WebRTC verwendet derzeit die Systemverarbeitung für voiceChat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VOX and switchable system processing apply only to legacy WebSocket PCM audio. WebRTC currently uses the system voiceChat processing."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VOX と切り替え可能なシステム処理は旧 WebSocket PCM 音声のみです。現在の WebRTC ではシステムの voiceChat 処理を使用します。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VOX и переключаемая системная обработка доступны только для старого PCM-канала WebSocket. WebRTC использует системную обработку voiceChat."
+          }
+        }
+      }
+    },
+    "VOX 语音触发阈值" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VOX-Aktivierungsschwelle"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VOX activation threshold"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VOX 起動しきい値"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Порог срабатывания VOX"
+          }
+        }
+      }
+    },
+    "VOX（旧版 WebSocket 语音）" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprachaktivierung (ältere WebSocket-Audioverbindung)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voice activation (legacy WebSocket audio)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "VOX（旧 WebSocket 音声）"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Голосовая активация (старый аудиоканал WebSocket)"
+          }
+        }
+      }
+    },
+    "WebRTC 信令已响应，正在等待实时媒体连接。" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WebRTC-Signalisierung bestätigt; warte auf die Medienverbindung …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WebRTC signaling received; waiting for the live media connection…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WebRTC シグナリングを受信しました。メディア接続を待っています…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сигнализация WebRTC получена; ожидание медиасоединения…"
+          }
+        }
+      }
+    },
+    "WebSocket RTT" : {
+
+    },
+    "WebSpeak" : {
+
+    },
+    "WebSpeak 网关（HTTPS）" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WebSpeak-Gateway (HTTPS)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WebSpeak gateway (HTTPS)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WebSpeak ゲートウェイ（HTTPS）"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шлюз WebSpeak (HTTPS)"
+          }
+        }
+      }
+    },
+    "WebSpeak 网关尚未完成初始化。" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das WebSpeak-Gateway ist noch nicht eingerichtet."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The WebSpeak gateway is not initialized yet."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WebSpeak ゲートウェイはまだ初期化されていません。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Шлюз WebSpeak ещё не настроен."
+          }
+        }
+      }
+    },
+    "Русский" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Russisch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Russian"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロシア語"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Русский"
+          }
+        }
+      }
+    },
+    "不会删除网关或 TeamSpeak 服务器上的资料，也不会结束当前服务器会话。" : {
+
+    },
+    "仅 iOS 27 及以上支持系统屏幕采集。选择整个屏幕后，iOS 的 screen-capture 后台模式允许离开 App 后继续采集；系统仍可因用户停止、权限或资源策略结束共享。本版本不共享系统音频。" : {
+
+    },
+    "仅 TeamSpeak identity 存入本机 Keychain；网关密码不会保存。" : {
+
+    },
+    "仅切换原型预览状态，不控制麦克风" : {
+
+    },
+    "仅在本机静音或恢复频道语音播放，不改变系统音量或耳机路由" : {
+
+    },
+    "仅本机实时显示输入电平，不录音、不保存，也不会发送到服务器。" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Eingangspegel wird nur lokal und live angezeigt. Es wird nichts aufgenommen, gespeichert oder an einen Server gesendet."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows the input level locally in real time. Nothing is recorded, saved, or sent to a server."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "入力レベルを端末上にリアルタイム表示します。録音・保存・サーバーへの送信は行いません。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уровень входного сигнала отображается только на устройстве в реальном времени. Запись, сохранение и отправка на сервер не выполняются."
+          }
+        }
+      }
+    },
+    "从列表移除" : {
+
+    },
+    "会话提示" : {
+
+    },
+    "你" : {
+
+    },
+    "你收到一个 Poke。打开应用查看会话。" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du hast einen Poke erhalten. Öffne die App, um die Sitzung anzusehen."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You received a poke. Open the app to view the session."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poke を受信しました。アプリを開いてセッションを確認してください。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы получили Poke. Откройте приложение, чтобы посмотреть сеанс."
+          }
+        }
+      }
+    },
+    "你的昵称" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Nickname"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your nickname"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ニックネーム"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваше имя"
+          }
+        }
+      }
+    },
+    "使用你自己的 WebSpeak 服务" : {
+
+    },
+    "使用系统 voiceChat 处理。" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verwendet die Systemverarbeitung für voiceChat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uses system voiceChat processing."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "システムの voiceChat 処理を使用します。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используется системная обработка voiceChat."
+          }
+        }
+      }
+    },
+    "保存当前网关的邀请链接；服务器密码不会包含在链接中。" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teile einen Einladungslink für dieses Gateway. Das Serverpasswort ist nicht im Link enthalten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share an invite link for this gateway. The server password is never included."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このゲートウェイの招待リンクを共有します。サーバーパスワードはリンクに含まれません。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поделитесь ссылкой-приглашением для этого шлюза. Пароль сервера в ссылку не добавляется."
+          }
+        }
+      }
+    },
+    "停止共享" : {
+
+    },
+    "停止麦克风测试" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mikrofontest stoppen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop microphone test"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "マイクテストを停止"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остановить проверку микрофона"
+          }
+        }
+      }
+    },
+    "全屏" : {
+
+    },
+    "共享准备中" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmfreigabe wird vorbereitet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing screen share"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画面共有を準備中"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подготовка демонстрации экрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共享准备中"
+          }
+        }
+      }
+    },
+    "共享开始后会显示在这里" : {
+
+    },
+    "共享本机屏幕" : {
+
+    },
+    "共享音频" : {
+
+    },
+    "共享音频音量" : {
+
+    },
+    "关闭扬声器" : {
+
+    },
+    "具体选项会在连接和媒体能力接入后开放。" : {
+
+    },
+    "分享 HTTPS 邀请链接" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HTTPS-Einladungslink teilen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share HTTPS invite link"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HTTPS 招待リンクを共有"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поделиться ссылкой-приглашением HTTPS"
+          }
+        }
+      }
+    },
+    "分享 WebSpeak 应用链接" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WebSpeak-App-Link teilen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share WebSpeak app link"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WebSpeak アプリリンクを共有"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поделиться ссылкой приложения WebSpeak"
+          }
+        }
+      }
+    },
+    "切换频道" : {
+
+    },
+    "切换麦克风静音状态" : {
+
+    },
+    "初始频道" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Startkanal"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Initial channel"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "初期チャンネル"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начальный канал"
+          }
+        }
+      }
+    },
+    "刷新共享列表" : {
+
+    },
+    "加入频道" : {
+
+    },
+    "发送 Poke" : {
+
+    },
+    "发送消息" : {
+
+    },
+    "发送私聊" : {
+
+    },
+    "取消" : {
+
+    },
+    "取消收藏" : {
+
+    },
+    "取消连接" : {
+
+    },
+    "只保存网关、服务器、昵称与频道；密码、邀请 Token 和 TeamSpeak identity 不进入最近列表。" : {
+
+    },
+    "只显示本次连接后由网关送达的内容。" : {
+
+    },
+    "后台 Poke 通知" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poke-Mitteilungen im Hintergrund"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Background poke notifications"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バックグラウンド Poke 通知"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уведомления о Poke в фоне"
+          }
+        }
+      }
+    },
+    "后台 Poke 通知设置" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poke-Mitteilungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poke notifications"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poke 通知"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уведомления о Poke"
+          }
+        }
+      }
+    },
+    "后台收到 Poke 时发送不含消息正文的本机通知。首次开启会请求系统授权。" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bei einem Poke im Hintergrund wird eine lokale Mitteilung ohne Nachrichtentext gesendet. Beim ersten Aktivieren wird um Systemberechtigung gebeten."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When a poke arrives in the background, a local notification is sent without its message text. System permission is requested the first time you enable this."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バックグラウンドで Poke を受信すると、本文を含まないローカル通知を送信します。初回有効時にシステムの許可を求めます。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "При получении Poke в фоне отправляется локальное уведомление без текста сообщения. При первом включении запрашивается разрешение системы."
+          }
+        }
+      }
+    },
+    "含音频" : {
+
+    },
+    "在此设备记住身份" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identität auf diesem Gerät merken"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remember identity on this device"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このデバイスに ID を保存"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запомнить идентификатор на устройстве"
+          }
+        }
+      }
+    },
+    "在线" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Online" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Online" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "オンライン" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "В сети" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在线" } }
+      }
+    },
+    "填入网关与昵称；不会填入密码或邀请 Token" : {
+
+    },
+    "夜航语音" : {
+
+    },
+    "好" : {
+
+    },
+    "完成" : {
+
+    },
+    "对已选目标启用私语" : {
+
+    },
+    "屏幕共享" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmfreigabe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Screen sharing"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画面共有"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Демонстрация экрана"
+          }
+        }
+      }
+    },
+    "已停止" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gestoppt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stopped"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停止中"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остановлено"
+          }
+        }
+      }
+    },
+    "已停止麦克风测试" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mikrofontest stoppen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop microphone test"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "マイクテストを停止"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Остановить проверку микрофона"
+          }
+        }
+      }
+    },
+    "已连接" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbunden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connected"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接続済み"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключено"
+          }
+        }
+      }
+    },
+    "应用语言" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App-Sprache"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App language"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリの言語"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Язык приложения"
+          }
+        }
+      }
+    },
+    "开启后，应用在后台收到 Poke 时发送不含消息正文的本机通知。首次开启会请求系统授权。" : {
+
+    },
+    "开启扬声器" : {
+
+    },
+    "开启扬声器后才能启用麦克风" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Schalte den Lautsprecher ein, um das Mikrofon zu aktivieren" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Turn on the speaker before enabling the microphone" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マイクを有効にするにはスピーカーをオンにしてください" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Включите динамик, чтобы активировать микрофон" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "开启扬声器后才能启用麦克风" } }
+      }
+    },
+    "开启麦克风" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mikrofon einschalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unmute microphone"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "マイクをオン"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Включить микрофон"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启麦克风"
+          }
+        }
+      }
+    },
+    "开始麦克风测试" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mikrofontest starten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start microphone test"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "マイクテストを開始"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начать проверку микрофона"
+          }
+        }
+      }
+    },
+    "当前会话还没有消息" : {
+
+    },
+    "当前版本提供界面原型，网关连接将在后续阶段接入" : {
+
+    },
+    "当前频道 · %lld 位成员" : {
+
+    },
+    "当前频道成员" : {
+
+    },
+    "当前频道没有共享" : {
+
+    },
+    "待接入" : {
+
+    },
+    "成员音量" : {
+
+    },
+    "扬声器关闭" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lautsprecher aus"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speaker off"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スピーカーオフ"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Динамик выключен"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "扬声器关闭"
+          }
+        }
+      }
+    },
+    "扬声器关闭，麦克风不可用" : {
+
+    },
+    "扬声器开启" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lautsprecher an"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speaker on"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スピーカーオン"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Динамик включён"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "扬声器开启"
+          }
+        }
+      }
+    },
+    "扬声器静音" : {
+
+    },
+    "按住只向私语目标说话" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Halten, um nur zu Whisper-Zielen zu sprechen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hold to speak only to whisper targets"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長押しして選択した相手にだけ話す"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удерживайте, чтобы говорить только выбранным адресатам шёпота"
+          }
+        }
+      }
+    },
+    "按住向私语目标说话" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Halten, um zu Whisper-Zielen zu sprechen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hold to whisper to targets"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "長押しして選択した相手に話す"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удерживайте, чтобы говорить адресатам шёпота"
+          }
+        }
+      }
+    },
+    "按住语音首页的麦克风按钮发言，松开后自动静音。" : {
+
+    },
+    "按住说话" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zum Sprechen halten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hold to talk"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "押して話す"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удерживайте для разговора"
+          }
+        }
+      }
+    },
+    "搜索频道或成员" : {
+
+    },
+    "支持观看与发起共享的原生入口" : {
+
+    },
+    "收藏" : {
+
+    },
+    "收藏连接" : {
+
+    },
+    "断开" : {
+
+    },
+    "断开 TeamSpeak 连接" : {
+
+    },
+    "日本語" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japanisch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japanese"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日本語"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Японский"
+          }
+        }
+      }
+    },
+    "旧版语音使用 Apple Voice Processing；VOX 只发送超过门限的音频帧。" : {
+
+    },
+    "暂无事件" : {
+
+    },
+    "暂无成员信息" : {
+
+    },
+    "更多连接选项" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weitere Verbindungsoptionen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More connection options"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "その他の接続オプション"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дополнительные параметры подключения"
+          }
+        }
+      }
+    },
+    "更改后界面立即切换；未翻译的文本会保留中文。" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Oberfläche wechselt sofort. Noch nicht übersetzte Texte bleiben auf Chinesisch."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The interface changes immediately. Untranslated text remains in Chinese."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画面はすぐに切り替わります。未翻訳のテキストは中国語のまま表示されます。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Интерфейс переключится сразу. Непереведённый текст останется на китайском."
+          }
+        }
+      }
+    },
+    "服务器密码" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serverpasswort"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server password"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サーバーパスワード"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль сервера"
+          }
+        }
+      }
+    },
+    "未连接" : {
+
+    },
+    "本次会话事件" : {
+
+    },
+    "查看 iPhone 与 iPad 的原生导航布局" : {
+
+    },
+    "正在共享屏幕" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirm wird geteilt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sharing screen"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画面を共有中"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Демонстрация экрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在共享屏幕"
+          }
+        }
+      }
+    },
+    "正在共享本机屏幕" : {
+
+    },
+    "正在发言" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spricht gerade"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speaking"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "発言中"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Говорит"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在发言"
+          }
+        }
+      }
+    },
+    "正在向私语目标发送 · 松开结束" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whisper an Ziele · zum Beenden loslassen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Whispering to targets · release to stop"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "選択した相手に送信中 · 離すと終了"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Передача адресатам шёпота · отпустите, чтобы остановить"
+          }
+        }
+      }
+    },
+    "正在準備屏幕共享…" : {
+
+    },
+    "正在私语；松开结束" : {
+
+    },
+    "正在等待频道目录" : {
+
+    },
+    "正在观看：%@" : {
+
+    },
+    "正在观看共享" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bildschirmfreigabe wird angesehen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Watching a screen share"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画面共有を視聴中"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Просмотр демонстрации экрана"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在观看共享"
+          }
+        }
+      }
+    },
+    "正在说话" : {
+
+    },
+    "正在说话 · 松开结束" : {
+
+    },
+    "正在说话，双击停止" : {
+
+    },
+    "正在连接" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprachverbindung wird hergestellt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecting voice"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声に接続中"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключение голосового канала"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在连接"
+          }
+        }
+      }
+    },
+    "正在连接网关…" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gateway wird verbunden …"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecting to gateway…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゲートウェイに接続中…"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключение к шлюзу…"
+          }
+        }
+      }
+    },
+    "正在重连" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbindung wird wiederhergestellt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reconnecting"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "再接続中"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повторное подключение"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "正在重连"
+          }
+        }
+      }
+    },
+    "正在频道中" : {
+
+    },
+    "此偏好在本機保存；0% 靜音，100% 為標準音量。" : {
+
+    },
+    "此原型不会保存密码或身份材料；启用记住身份后将接入 Keychain。" : {
+
+    },
+    "此设备正在共享。接收端将通过 WebRTC/ICE 与此设备建立 P2P 连接。" : {
+
+    },
+    "此频道暂无成员" : {
+
+    },
+    "测量连接延迟" : {
+
+    },
+    "消息只保存在当前会话内存" : {
+
+    },
+    "清除 WebSpeak 本地数据？" : {
+
+    },
+    "清除搜索" : {
+
+    },
+    "清除本地连接、身份与音量偏好" : {
+
+    },
+    "清除本设备保存的数据" : {
+
+    },
+    "点按开关" : {
+
+    },
+    "点按语音首页的麦克风按钮，在开启与静音之间切换。扬声器关闭时麦克风不可启用。" : {
+
+    },
+    "界面原型 · 尚未连接服务器" : {
+
+    },
+    "界面预览" : {
+
+    },
+    "直接切换到此频道；如果需要密码会提示输入" : {
+
+    },
+    "直接连接" : {
+
+    },
+    "示例 TeamSpeak 频道" : {
+
+    },
+    "示例数据，不是实时会话" : {
+
+    },
+    "离开" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Abwesend" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Away" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "離席中" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Отошёл" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "离开" } }
+      }
+    },
+    "私聊对象" : {
+
+    },
+    "移动成员" : {
+
+    },
+    "移除私语目标" : {
+
+    },
+    "等待系统选择屏幕" : {
+
+    },
+    "简体中文" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vereinfachtes Chinesisch"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simplified Chinese"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "簡体字中国語"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Упрощённый китайский"
+          }
+        }
+      }
+    },
+    "网络中继" : {
+
+    },
+    "聊天" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chat"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "チャット"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чат"
+          }
+        }
+      }
+    },
+    "聊天与事件不会写入持久化历史；断开连接后会从内存清除。" : {
+
+    },
+    "聊天范围" : {
+
+    },
+    "觀看共享" : {
+
+    },
+    "触发阈值" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schwellenwert"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activation threshold"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "起動しきい値"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Порог активации"
+          }
+        }
+      }
+    },
+    "设为私语目标" : {
+
+    },
+    "诊断与设置" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnose und Einstellungen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagnostics and settings"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "診断と設定"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Диагностика и настройки"
+          }
+        }
+      }
+    },
+    "语言" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprache"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "言語"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Язык"
+          }
+        }
+      }
+    },
+    "语音" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprache"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voice"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Голос"
+          }
+        }
+      }
+    },
+    "语音，随时加入。" : {
+
+    },
+    "语音会话" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprachsitzung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voice session"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声セッション"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Голосовой сеанс"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语音会话"
+          }
+        }
+      }
+    },
+    "语音处理" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprachverarbeitung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voice processing"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声処理"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обработка голоса"
+          }
+        }
+      }
+    },
+    "语音媒体暂不可用" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprachmedien vorübergehend nicht verfügbar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voice media unavailable"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声メディアを利用できません"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Голосовой канал временно недоступен"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语音媒体暂不可用"
+          }
+        }
+      }
+    },
+    "语音已连接" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprache verbunden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voice connected"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声接続済み"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Голосовая связь подключена"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语音已连接"
+          }
+        }
+      }
+    },
+    "语音控制" : {
+
+    },
+    "语音连接中" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sprachverbindung wird hergestellt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecting voice"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "音声に接続中"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключение голосового канала"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语音连接中"
+          }
+        }
+      }
+    },
+    "语音频道" : {
+
+    },
+    "读取网关连接策略并请求一次性连接票据" : {
+
+    },
+    "跟随系统" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Systemeinstellung"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow system"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "システム設定に従う"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как в системе"
+          }
+        }
+      }
+    },
+    "身份材料将由 iOS 安全存储保护。" : {
+
+    },
+    "输入消息…" : {
+
+    },
+    "返回连接页" : {
+
+    },
+    "这些是界面样例，不是服务器消息，也不会发送或保存。" : {
+
+    },
+    "这里只能显示网关实际送达的新消息，不会读取 TeamSpeak 桌面客户端的本地聊天历史。" : {
+
+    },
+    "连接" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbinden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接続"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключение"
+          }
+        }
+      }
+    },
+    "连接 TeamSpeak" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit TeamSpeak verbinden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect to TeamSpeak"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TeamSpeak に接続"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключиться к TeamSpeak"
+          }
+        }
+      }
+    },
+    "连接你的 WebSpeak 网关，在 iPhone 和 iPad 上进入语音频道。" : {
+
+    },
+    "连接功能开发中" : {
+
+    },
+    "连接后输入消息" : {
+
+    },
+    "连接网关" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Gateway verbinden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect to gateway"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゲートウェイに接続"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подключиться к шлюзу"
+          }
+        }
+      }
+    },
+    "连接记录操作" : {
+
+    },
+    "退出觀看" : {
+
+    },
+    "选择在线成员" : {
+
+    },
+    "邀请 Token" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einladungstoken"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invite token"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "招待トークン"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Токен приглашения"
+          }
+        }
+      }
+    },
+    "重新读取网关配置" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gateway-Konfiguration erneut laden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reload gateway configuration"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゲートウェイ設定を再読み込み"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повторно загрузить настройки шлюза"
+          }
+        }
+      }
+    },
+    "重试语音连接" : {
+
+    },
+    "链接只包含网关、频道和可选邀请 Token；不会包含服务器密码。HTTPS 链接默认打开网关网页；若要直接打开 App，需为对应网关配置 Universal Links。" : {
+
+    },
+    "關閉" : {
+
+    },
+    "静音麦克风" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mikrofon stummschalten"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mute microphone"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "マイクをミュート"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выключить микрофон"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "静音麦克风"
+          }
+        }
+      }
+    },
+    "音频与外观" : {
+
+    },
+    "音频输出" : {
+
+    },
+    "预览" : {
+
+    },
+    "预览连接后的工作区" : {
+
+    },
+    "频道" : {
+
+    },
+    "频道与成员" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kanäle und Mitglieder"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Channels and members"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "チャンネルとメンバー"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каналы и участники"
+          }
+        }
+      }
+    },
+    "频道密码（如需要）" : {
+
+    },
+    "麦克风已静音，双击开始" : {
+
+    },
+    "麦克风开启" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mikrofon an"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Microphone on"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "マイクオン"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Микрофон включён"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "麦克风开启"
+          }
+        }
+      }
+    },
+    "麦克风控制" : {
+
+    },
+    "麦克风模式" : {
+
+    },
+    "麦克风测试" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mikrofontest"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Microphone test"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "マイクテスト"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверка микрофона"
+          }
+        }
+      }
+    },
+    "麦克风输入" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mikrofoneingang"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Microphone input"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "マイク入力"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вход микрофона"
+          }
+        }
+      }
+    },
+    "麦克风输入电平" : {
+
+    },
+    "麦克风静音" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mikrofon stumm"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Microphone muted"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "マイクミュート"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Микрофон выключен"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "麦克风静音"
+          }
+        }
+      }
+    },
+    "切换麦克风" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mikrofon umschalten" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Toggle microphone" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マイクを切り替え" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Переключить микрофон" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "切换麦克风" } }
+      }
+    },
+    "PTT 模式请在 App 内按住说话" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Halte zum Sprechen in der App gedrückt" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Press and hold in the app to talk" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "アプリ内で長押しして話す" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нажмите и удерживайте в приложении, чтобы говорить" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "PTT 模式请在 App 内按住说话" } }
+      }
+    },
+    "后台消息通知" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Benachrichtigungen im Hintergrund" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Background message notifications" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "バックグラウンド通知" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Уведомления в фоне" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "后台消息通知" } }
+      }
+    },
+    "当别人向你发送提醒时，在后台显示本机通知；普通聊天消息不推送。需允许通知，并且语音连接仍在运行。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Zeigt bei einer Erinnerung eine lokale Mitteilung an, wenn die App im Hintergrund läuft. Normale Chatnachrichten werden nicht gemeldet. Mitteilungen und eine aktive Sprachverbindung sind erforderlich." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Show a local notification for incoming alerts while the app is in the background. Regular chat messages aren't notified. Notification permission and an active voice connection are required." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "アプリがバックグラウンドで動作中に届いた通知を表示します。通常のチャット本文は通知しません。通知の許可と音声接続が必要です。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Показывать локальное уведомление о входящем сигнале, когда приложение работает в фоне. Обычные сообщения чата не уведомляются. Требуются разрешение на уведомления и активное голосовое соединение." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "当别人向你发送提醒时，在后台显示本机通知；普通聊天消息不推送。需允许通知，并且语音连接仍在运行。" } }
+      }
+    },
+    "设置离开状态" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Abwesenheitsstatus festlegen" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Set away status" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "離席状態を設定" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Установить статус отсутствия" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "设置离开状态" } }
+      }
+    },
+    "离开原因（可选）" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Abwesenheitsgrund (optional)" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reason for being away (optional)" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "離席理由（任意）" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Причина отсутствия (необязательно)" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "离开原因（可选）" } }
+      }
+    },
+    "设为离开" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Als abwesend festlegen" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Set as away" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "離席に設定" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Установить статус «отсутствует»" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "设为离开" } }
+      }
+    },
+    "最多 200 个字符；其他成员将看到“离开（原因）”。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Bis zu 200 Zeichen. Andere sehen „Abwesend (Grund)“." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Up to 200 characters. Others will see “Away (reason)”." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "最大200文字です。他のメンバーには「離席中（理由）」と表示されます。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "До 200 символов. Другие увидят «Отошёл (причина)»." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "最多 200 个字符；其他成员将看到“离开（原因）”。" } }
+      }
+    },
+    "更改在线状态或设置离开原因" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Onlinestatus ändern oder Abwesenheitsgrund festlegen" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Change online status or set an away reason" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "オンライン状態または離席理由を設定" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Изменить статус или указать причину отсутствия" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "更改在线状态或设置离开原因" } }
+      }
+    },
+    "你收到一条提醒。打开应用查看会话。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Du hast eine Erinnerung erhalten. Öffne die App, um die Sitzung anzusehen." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "You received an alert. Open the app to view the session." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "通知が届きました。アプリを開いてセッションを確認してください。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Вы получили уведомление. Откройте приложение, чтобы посмотреть сеанс." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "你收到一条提醒。打开应用查看会话。" } }
+      }
+    },
+    "VOX 与系统语音处理开关只作用于旧版 WebSocket 语音；当前通话使用 iOS voiceChat 处理，下面的设置不会改变当前 WebRTC 通话。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "VOX und die Systemsprachverarbeitung gelten nur für die ältere WebSocket-Audioverbindung. Der aktuelle WebRTC-Anruf verwendet iOS voiceChat; diese Einstellungen ändern ihn nicht." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "VOX and system voice processing only affect legacy WebSocket audio. The current WebRTC call uses iOS voiceChat, so these settings don't change it." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "VOX とシステム音声処理は旧 WebSocket 音声でのみ有効です。現在の WebRTC 通話は iOS voiceChat を使用するため、これらの設定は影響しません。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "VOX и системная обработка влияют только на старый звук WebSocket. Текущий вызов WebRTC использует iOS voiceChat, поэтому эти настройки на него не влияют." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "VOX 与系统语音处理开关只作用于旧版 WebSocket 语音；当前通话使用 iOS voiceChat 处理，下面的设置不会改变当前 WebRTC 通话。" } }
+      }
+    },
+    "VOX 按麦克风音量门限决定何时发送；Apple 系统语音处理使用 iOS 通话音频处理（例如回声消除、降噪）。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "VOX sendet abhängig vom Mikrofonpegel. Apples Systemverarbeitung nutzt iOS-Sprachverarbeitung, etwa Echounterdrückung und Rauschminderung." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "VOX uses the microphone level to decide when to transmit. Apple's system processing uses iOS voice processing, such as echo cancellation and noise reduction." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "VOX はマイク音量に応じて送信を制御します。Apple のシステム処理は iOS の音声処理（エコーキャンセルやノイズ低減など）を使用します。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "VOX определяет передачу по уровню микрофона. Системная обработка Apple использует голосовые функции iOS, например эхоподавление и шумоподавление." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "VOX 按麦克风音量门限决定何时发送；Apple 系统语音处理使用 iOS 通话音频处理（例如回声消除、降噪）。" } }
+      }
+    },
+    "麦克风声音" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Mikrofon-Audio" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Microphone audio" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マイク音声" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Звук микрофона" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "麦克风声音" } }
+      }
+    },
+    "说话时自动发送" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Beim Sprechen automatisch senden" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Automatically send while speaking" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "話している間に自動送信" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Автоматически передавать речь" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "说话时自动发送" } }
+      }
+    },
+    "安静时不发送；声音达到下方设定后才开始发送。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Bei Stille wird nichts gesendet. Die Übertragung beginnt, sobald die Stimme den unten eingestellten Pegel erreicht." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Nothing is sent while it's quiet. Transmission starts when your voice reaches the level set below." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "静かな間は送信しません。声が下で設定した音量に達すると送信を始めます。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "В тишине звук не передаётся. Передача начинается, когда голос достигает заданного ниже уровня." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "安静时不发送；声音达到下方设定后才开始发送。" } }
+      }
+    },
+    "关闭时，只要麦克风开启就会持续发送声音。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Wenn diese Option aus ist, wird bei eingeschaltetem Mikrofon fortlaufend Audio gesendet." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "When off, audio is sent continuously whenever your microphone is on." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "オフの場合、マイクがオンの間は音声を送信し続けます。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Если выключено, звук передаётся непрерывно, пока включён микрофон." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "关闭时，只要麦克风开启就会持续发送声音。" } }
+      }
+    },
+    "说话触发音量" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Sprachlautstärke zum Auslösen" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Speaking volume threshold" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "話し声のしきい値" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Порог громкости речи" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "说话触发音量" } }
+      }
+    },
+    "降噪与回声处理" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Rausch- und Echoverarbeitung" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Noise and echo processing" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ノイズ・エコー処理" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Подавление шума и эха" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "降噪与回声处理" } }
+      }
+    },
+    "使用 iOS 内置通话语音处理，尝试减轻背景声和回声；不是单独的降噪滤镜。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Verwendet die integrierte iOS-Sprachverarbeitung, um Hintergrundgeräusche und Echo zu verringern; kein separater Rauschfilter." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Uses built-in iOS voice processing to try to reduce background noise and echo; it isn't a standalone noise filter." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "iOS 内蔵の音声処理で背景音やエコーの軽減を試みます。独立したノイズフィルターではありません。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Использует встроенную обработку голоса iOS для уменьшения фонового шума и эха; это не отдельный фильтр шума." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "使用 iOS 内置通话语音处理，尝试减轻背景声和回声；不是单独的降噪滤镜。" } }
+      }
+    },
+    "这两项只作用于旧版 WebSocket 语音；WebRTC 通话由 iOS 自带通话处理。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Diese Optionen gelten nur für ältere WebSocket-Audioverbindungen. WebRTC-Anrufe verwenden die integrierte iOS-Sprachverarbeitung." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "These options only affect legacy WebSocket audio. WebRTC calls use iOS's built-in voice processing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "これらの設定は旧 WebSocket 音声にのみ適用されます。WebRTC 通話は iOS 内蔵の音声処理を使用します。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Эти параметры действуют только для старого звука WebSocket. Вызовы WebRTC используют встроенную обработку голоса iOS." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这两项只作用于旧版 WebSocket 语音；WebRTC 通话由 iOS 自带通话处理。" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

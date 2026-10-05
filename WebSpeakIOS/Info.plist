@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict>
+	<dict>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
+	<key>NSScreenCaptureUsageDescription</key>
+	<string>WebSpeak 仅在你主动开始屏幕共享后，捕获所选画面并发送给当前语音频道。</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>zh-Hans</string>
+		<string>en</string>
+		<string>de</string>
+		<string>ru</string>
+		<string>ja</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.echosixhiya.webspeak.ios.join</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>webspeak</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
+		<string>screen-capture</string>
 	</array>
 </dict>
 </plist>

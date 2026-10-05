@@ -1,5 +1,6 @@
 import AVFoundation
 import AudioToolbox
+import Combine
 import Darwin
 import Foundation
 import os
@@ -33,20 +34,38 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
     private var speakerDecoders: [Int: AVAudioConverter] = [:]
     private var speakerPlayers: [Int: AVAudioPlayerNode] = [:]
     private var speakerVolumes: [Int: Float] = [:]
+    private var speakerMuted: Bool
     private var queuedPlaybackBuffers: [Int: Int] = [:]
     private var pendingSamples: [Float] = []
     private var pendingSendFrames: [Data] = []
     private var isSendingFrame = false
+    private var microphoneMuteWaiters: [CheckedContinuation<Void, Never>] = []
     private var sentFrameCount = 0
     private var receivedFrameCount = 0
     private var droppedMicrophoneFrameCount = 0
     private var droppedPlaybackFrameCount = 0
     private var didReportCaptureError = false
+    private var voiceActivityDetectionEnabled: Bool
+    private var voiceActivityThreshold: Float
+    private var voxReleaseFrames = 0
+    private var lastLevelReportUptime: TimeInterval = 0
+    private var noiseSuppressionEnabled: Bool
 
     var onStatusChange: ((String) -> Void)?
+    var onMicrophoneLevel: ((Double) -> Void)?
 
-    init(gatewaySocket: URLSessionWebSocketTask) {
+    init(
+        gatewaySocket: URLSessionWebSocketTask,
+        voiceActivityDetectionEnabled: Bool = false,
+        voiceActivityThreshold: Double = 0.008,
+        noiseSuppressionEnabled: Bool = true,
+        speakerMuted: Bool = false
+    ) {
         self.gatewaySocket = gatewaySocket
+        self.voiceActivityDetectionEnabled = voiceActivityDetectionEnabled
+        self.voiceActivityThreshold = Float(min(0.08, max(0.001, voiceActivityThreshold)))
+        self.noiseSuppressionEnabled = noiseSuppressionEnabled
+        self.speakerMuted = speakerMuted
     }
 
     /// Starts playback regardless of microphone permission. If permission is
@@ -91,6 +110,12 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
             outputNode.play()
 
             if permissionGranted {
+                do {
+                    try micInput.setVoiceProcessingEnabled(noiseSuppressionEnabled)
+                } catch {
+                    logger.error("Could not configure system voice processing; enabled=\(self.noiseSuppressionEnabled, privacy: .public) code=\((error as NSError).code, privacy: .public)")
+                    reportStatus("系统语音处理不可用；将继续使用当前麦克风输入。")
+                }
                 let inputFormat = micInput.outputFormat(forBus: 0)
                 guard inputFormat.sampleRate > 0,
                       inputFormat.channelCount > 0,
@@ -140,9 +165,59 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
         if muted {
             audioQueue.async { [weak self] in
                 self?.pendingSamples.removeAll(keepingCapacity: true)
+                self?.voxReleaseFrames = 0
             }
             sendQueue.async { [weak self] in
                 self?.pendingSendFrames.removeAll(keepingCapacity: true)
+            }
+        }
+    }
+
+    /// Closes the local capture gate and waits until any PCM WebSocket send
+    /// already in flight completes, so a later gateway control frame cannot
+    /// overtake older microphone audio.
+    func muteAndWaitForPendingMicrophoneFrames() async {
+        updateMicrophoneMuteState(true)
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            audioQueue.async { [weak self] in
+                guard let self else {
+                    continuation.resume()
+                    return
+                }
+                self.pendingSamples.removeAll(keepingCapacity: true)
+                self.voxReleaseFrames = 0
+                self.sendQueue.async {
+                    self.pendingSendFrames.removeAll(keepingCapacity: true)
+                    if self.isSendingFrame {
+                        self.microphoneMuteWaiters.append(continuation)
+                    } else {
+                        continuation.resume()
+                    }
+                }
+            }
+        }
+    }
+
+    func setVoiceActivityDetection(enabled: Bool, threshold: Double) {
+        let normalizedThreshold = Float(min(0.08, max(0.001, threshold)))
+        audioQueue.async { [weak self] in
+            self?.voiceActivityDetectionEnabled = enabled
+            self?.voiceActivityThreshold = normalizedThreshold
+            if !enabled { self?.voxReleaseFrames = 0 }
+        }
+    }
+
+    func setNoiseSuppressionEnabled(_ enabled: Bool) {
+        audioQueue.async { [weak self] in
+            guard let self else { return }
+            self.noiseSuppressionEnabled = enabled
+            guard let inputNode = self.inputNode else { return }
+            do {
+                try inputNode.setVoiceProcessingEnabled(enabled)
+                self.reportStatus(enabled ? "已启用 Apple 系统语音处理。" : "已关闭 Apple 系统语音处理。")
+            } catch {
+                self.reportStatus("无法切换系统语音处理；请在下次连接时重试。")
+                self.logger.error("Could not update system voice processing; code=\((error as NSError).code, privacy: .public)")
             }
         }
     }
@@ -158,7 +233,17 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
         audioQueue.async { [weak self] in
             guard let self else { return }
             self.speakerVolumes[clientID] = normalized
-            self.speakerPlayers[clientID]?.volume = normalized
+            self.speakerPlayers[clientID]?.volume = self.speakerMuted ? 0 : normalized
+        }
+    }
+
+    func setSpeakerMuted(_ muted: Bool) {
+        audioQueue.async { [weak self] in
+            guard let self else { return }
+            self.speakerMuted = muted
+            for (clientID, player) in self.speakerPlayers {
+                player.volume = muted ? 0 : (self.speakerVolumes[clientID] ?? 1)
+            }
         }
     }
 
@@ -193,6 +278,7 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
             speakerPlayers.removeAll()
             queuedPlaybackBuffers.removeAll()
             pendingSamples.removeAll()
+            voxReleaseFrames = 0
             inputConverter = nil
             pcmFormat = nil
             opusFormat = nil
@@ -201,7 +287,11 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
             engine = nil
         }
         sendQueue.async { [weak self] in
-            self?.pendingSendFrames.removeAll()
+            guard let self else { return }
+            self.pendingSendFrames.removeAll()
+            let waiters = self.microphoneMuteWaiters
+            self.microphoneMuteWaiters.removeAll()
+            waiters.forEach { $0.resume() }
         }
         try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
         logger.info("Legacy WebSocket audio stopped")
@@ -221,8 +311,10 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
         stateLock.unlock()
         guard shouldSend else {
             pendingSamples.removeAll(keepingCapacity: true)
+            voxReleaseFrames = 0
             return
         }
+        reportMicrophoneLevel(for: input)
         guard let inputConverter, let pcmFormat else { return }
 
         let ratio = Self.sampleRate / max(1, input.format.sampleRate)
@@ -260,9 +352,41 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
                 frame[index] = Int16(clamping: Int(pendingSamples[index].rounded())).littleEndian
             }
             pendingSamples.removeFirst(Self.frameSamples)
+            guard shouldTransmitPCMFrame(frame) else { continue }
             let frameData = frame.withUnsafeBytes { Data($0) }
             enqueueMicrophoneFrame(frameData)
         }
+    }
+
+    private func shouldTransmitPCMFrame(_ samples: [Int16]) -> Bool {
+        guard voiceActivityDetectionEnabled else { return true }
+        let squareSum = samples.reduce(0.0) { partial, sample in
+            let normalized = Double(sample) / 32_768
+            return partial + normalized * normalized
+        }
+        let rms = sqrt(squareSum / Double(samples.count))
+        if rms >= Double(voiceActivityThreshold) {
+            voxReleaseFrames = 15
+            return true
+        }
+        guard voxReleaseFrames > 0 else { return false }
+        voxReleaseFrames -= 1
+        return true
+    }
+
+    private func reportMicrophoneLevel(for buffer: AVAudioPCMBuffer) {
+        guard let channels = buffer.floatChannelData, buffer.frameLength > 0 else { return }
+        let now = ProcessInfo.processInfo.systemUptime
+        guard now - lastLevelReportUptime >= 0.08 else { return }
+        lastLevelReportUptime = now
+        let samples = channels[0]
+        var squareSum = 0.0
+        for index in 0 ..< Int(buffer.frameLength) {
+            let sample = Double(samples[index])
+            squareSum += sample * sample
+        }
+        let level = min(1, sqrt(squareSum / Double(buffer.frameLength)) * 4)
+        Task { @MainActor [weak self] in self?.onMicrophoneLevel?(level) }
     }
 
     private func enqueueMicrophoneFrame(_ data: Data) {
@@ -289,6 +413,7 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
         guard !isSendingFrame else { return }
         guard canCaptureMicrophone() else {
             pendingSendFrames.removeAll(keepingCapacity: true)
+            resumeMicrophoneMuteWaitersIfIdle()
             return
         }
         guard !pendingSendFrames.isEmpty else { return }
@@ -311,18 +436,27 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
                     }
                     self.isSendingFrame = false
                     self.sendNextMicrophoneFrame()
+                    self.resumeMicrophoneMuteWaitersIfIdle()
                 }
             } catch {
                 self?.sendQueue.async { [weak self] in
                     guard let self else { return }
                     self.isSendingFrame = false
                     self.pendingSendFrames.removeAll()
+                    self.resumeMicrophoneMuteWaitersIfIdle()
                     let value = error as NSError
                     self.logger.error("Legacy microphone WebSocket send failed; domain=\(value.domain, privacy: .public) code=\(value.code, privacy: .public)")
                     self.reportStatus("WebSocket 麦克风发送失败；请检查连接并重试。")
                 }
             }
         }
+    }
+
+    private func resumeMicrophoneMuteWaitersIfIdle() {
+        guard !isSendingFrame, !microphoneMuteWaiters.isEmpty else { return }
+        let waiters = microphoneMuteWaiters
+        microphoneMuteWaiters.removeAll()
+        waiters.forEach { $0.resume() }
     }
 
     private func decodeAndPlay(_ data: Data) {
@@ -394,7 +528,7 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
             player = existing
         } else {
             let created = AVAudioPlayerNode()
-            created.volume = speakerVolumes[clientID] ?? 1
+            created.volume = speakerMuted ? 0 : (speakerVolumes[clientID] ?? 1)
             engine.attach(created)
             engine.connect(created, to: engine.mainMixerNode, format: pcmFormat)
             speakerPlayers[clientID] = created
@@ -476,5 +610,102 @@ final class WebSocketVoiceAudioSession: @unchecked Sendable {
             case .microphoneFormatUnavailable: "无法读取或转换麦克风音频格式。"
             }
         }
+    }
+}
+
+/// A local-only microphone meter used before joining a voice session. It never
+/// records, persists, or sends captured samples.
+@MainActor
+final class MicrophoneTestSession: ObservableObject {
+    @Published private(set) var isStarting = false
+    @Published private(set) var isRunning = false
+    @Published private(set) var level = 0.0
+    @Published private(set) var errorMessage: String?
+
+    private var engine: AVAudioEngine?
+    private var lastLevelReportUptime: TimeInterval = 0
+    private var startRequestID = UUID()
+
+    func start() async {
+        guard !isRunning, !isStarting else { return }
+        let requestID = UUID()
+        startRequestID = requestID
+        isStarting = true
+        errorMessage = nil
+        level = 0
+        let granted = await withCheckedContinuation { (continuation: CheckedContinuation<Bool, Never>) in
+                AVAudioApplication.requestRecordPermission { continuation.resume(returning: $0) }
+        }
+        guard startRequestID == requestID else { return }
+        guard granted else {
+            isStarting = false
+            errorMessage = "麦克风权限未开启；可在系统设置中允许 WebSpeak 使用麦克风。"
+            return
+        }
+
+        let session = AVAudioSession.sharedInstance()
+        var testEngine: AVAudioEngine?
+        var microphoneTapInstalled = false
+        do {
+            try session.setCategory(.record, mode: .measurement)
+            try session.setActive(true)
+            let audioEngine = AVAudioEngine()
+            testEngine = audioEngine
+            let input = audioEngine.inputNode
+            let format = input.outputFormat(forBus: 0)
+            guard format.sampleRate > 0, format.channelCount > 0 else {
+                throw MicrophoneTestError.inputUnavailable
+            }
+            input.installTap(onBus: 0, bufferSize: 512, format: format) { [weak self] buffer, _ in
+                guard let samples = buffer.floatChannelData?[0], buffer.frameLength > 0 else { return }
+                var squareSum = 0.0
+                for index in 0 ..< Int(buffer.frameLength) {
+                    let sample = Double(samples[index])
+                    squareSum += sample * sample
+                }
+                let measuredLevel = min(1, sqrt(squareSum / Double(buffer.frameLength)) * 4)
+                Task { @MainActor [weak self] in
+                    guard let self else { return }
+                    let now = ProcessInfo.processInfo.systemUptime
+                    guard now - self.lastLevelReportUptime >= 0.08 else { return }
+                    self.lastLevelReportUptime = now
+                    self.level = measuredLevel
+                }
+            }
+            microphoneTapInstalled = true
+            try audioEngine.start()
+            engine = audioEngine
+            testEngine = nil
+            isStarting = false
+            isRunning = true
+        } catch {
+            if microphoneTapInstalled { testEngine?.inputNode.removeTap(onBus: 0) }
+            testEngine?.stop()
+            try? session.setActive(false, options: .notifyOthersOnDeactivation)
+            errorMessage = "无法启动麦克风测试：\(error.localizedDescription)"
+            engine = nil
+            isStarting = false
+            isRunning = false
+            level = 0
+        }
+    }
+
+    func stop() {
+        startRequestID = UUID()
+        if let engine {
+            engine.inputNode.removeTap(onBus: 0)
+            engine.stop()
+        }
+        engine = nil
+        isStarting = false
+        isRunning = false
+        level = 0
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+    }
+
+    private enum MicrophoneTestError: LocalizedError {
+        case inputUnavailable
+
+        var errorDescription: String? { "当前没有可用的麦克风输入。" }
     }
 }

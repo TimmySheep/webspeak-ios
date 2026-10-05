@@ -98,16 +98,11 @@ struct ChatMessage: Identifiable, Hashable {
     let isSelf: Bool
 }
 
-struct VoiceMediaDiagnostics: Equatable {
-    var roundTripMs: Int?
-    var jitterMs: Int?
-    var packetLossPercent: Double?
+enum MicrophoneControlMode: String, CaseIterable, Identifiable {
+    case toggle
+    case pushToTalk
 
-    static let unavailable = VoiceMediaDiagnostics(
-        roundTripMs: nil,
-        jitterMs: nil,
-        packetLossPercent: nil
-    )
+    var id: String { rawValue }
 }
 
 struct ScreenShareStream: Decodable, Identifiable, Hashable {

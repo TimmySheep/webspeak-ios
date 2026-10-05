@@ -26,6 +26,15 @@
 		A10000000000000000000011 /* AudioRoutePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000011 /* AudioRoutePicker.swift */; };
 		A10000000000000000000012 /* ScreenSharePublisherSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000012 /* ScreenSharePublisherSession.swift */; };
 		A10000000000000000000013 /* WebSocketVoiceAudioSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000013 /* WebSocketVoiceAudioSession.swift */; };
+		A10000000000000000000014 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000014 /* Localizable.xcstrings */; };
+		A10000000000000000000015 /* VoiceSessionLiveActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000015 /* VoiceSessionLiveActivityAttributes.swift */; };
+		A10000000000000000000016 /* VoiceSessionLiveActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000016 /* VoiceSessionLiveActivityController.swift */; };
+		A10000000000000000000017 /* WebSpeakLiveActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000018 /* WebSpeakLiveActivityWidget.swift */; };
+		A10000000000000000000018 /* WebSpeakLiveActivityExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B10000000000000000000019 /* WebSpeakLiveActivityExtension.appex */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A10000000000000000000019 /* Localizable.xcstrings in Extension Resources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000014 /* Localizable.xcstrings */; };
+		A10000000000000000000020 /* VoiceSessionLiveActivityAttributes.swift in Extension Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000021 /* VoiceSessionLiveActivityAttributes.swift */; };
+		A10000000000000000000021 /* LiveActivityMicrophoneIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000023 /* LiveActivityMicrophoneIntent.swift */; };
+		A10000000000000000000022 /* LiveActivityMicrophoneIntent.swift in Extension Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000024 /* LiveActivityMicrophoneIntent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +57,15 @@
 		B10000000000000000000011 /* AudioRoutePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRoutePicker.swift; sourceTree = "<group>"; };
 		B10000000000000000000012 /* ScreenSharePublisherSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSharePublisherSession.swift; sourceTree = "<group>"; };
 		B10000000000000000000013 /* WebSocketVoiceAudioSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketVoiceAudioSession.swift; sourceTree = "<group>"; };
+		B10000000000000000000014 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		B10000000000000000000015 /* VoiceSessionLiveActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSessionLiveActivityAttributes.swift; sourceTree = "<group>"; };
+		B10000000000000000000016 /* VoiceSessionLiveActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSessionLiveActivityController.swift; sourceTree = "<group>"; };
+		B10000000000000000000018 /* WebSpeakLiveActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSpeakLiveActivityWidget.swift; sourceTree = "<group>"; };
+		B10000000000000000000019 /* WebSpeakLiveActivityExtension.appex */ = {isa = PBXFileReference; explicitFileType = wrapper.app-extension; includeInIndex = 0; path = WebSpeakLiveActivityExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B10000000000000000000021 /* VoiceSessionLiveActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ../WebSpeakIOS/VoiceSessionLiveActivityAttributes.swift; sourceTree = "<group>"; };
+		B10000000000000000000022 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B10000000000000000000023 /* LiveActivityMicrophoneIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityMicrophoneIntent.swift; sourceTree = "<group>"; };
+		B10000000000000000000024 /* LiveActivityMicrophoneIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ../WebSpeakIOS/LiveActivityMicrophoneIntent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,13 +77,53 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C10000000000000000000006 /* Extension Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C10000000000000000000004 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A10000000000000000000018 /* WebSpeakLiveActivityExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXContainerItemProxy section */
+		G10000000000000000000002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D10000000000000000000004 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E10000000000000000000002;
+			remoteInfo = WebSpeakLiveActivityExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+		G10000000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E10000000000000000000002 /* WebSpeakLiveActivityExtension */;
+			targetProxy = G10000000000000000000002 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXGroup section */
 		D10000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
 				D10000000000000000000002 /* WebSpeakIOS */,
+				D10000000000000000000005 /* WebSpeakLiveActivityExtension */,
 				D10000000000000000000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +148,10 @@
 				B10000000000000000000011 /* AudioRoutePicker.swift */,
 				B10000000000000000000012 /* ScreenSharePublisherSession.swift */,
 				B10000000000000000000013 /* WebSocketVoiceAudioSession.swift */,
+				B10000000000000000000014 /* Localizable.xcstrings */,
+				B10000000000000000000015 /* VoiceSessionLiveActivityAttributes.swift */,
+				B10000000000000000000016 /* VoiceSessionLiveActivityController.swift */,
+				B10000000000000000000023 /* LiveActivityMicrophoneIntent.swift */,
 				B10000000000000000000006 /* Assets.xcassets */,
 			);
 			path = WebSpeakIOS;
@@ -99,8 +161,20 @@
 			isa = PBXGroup;
 			children = (
 				B10000000000000000000007 /* WebSpeakIOS.app */,
+				B10000000000000000000019 /* WebSpeakLiveActivityExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D10000000000000000000005 /* WebSpeakLiveActivityExtension */ = {
+			isa = PBXGroup;
+			children = (
+				B10000000000000000000021 /* VoiceSessionLiveActivityAttributes.swift */,
+				B10000000000000000000018 /* WebSpeakLiveActivityWidget.swift */,
+				B10000000000000000000022 /* Info.plist */,
+				B10000000000000000000024 /* LiveActivityMicrophoneIntent.swift */,
+			);
+			path = WebSpeakLiveActivityExtension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -113,10 +187,12 @@
 				C10000000000000000000002 /* Sources */,
 				C10000000000000000000001 /* Frameworks */,
 				C10000000000000000000003 /* Resources */,
+				C10000000000000000000004 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				G10000000000000000000001 /* PBXTargetDependency */,
 			);
 			name = WebSpeakIOS;
 			packageProductDependencies = (
@@ -125,6 +201,25 @@
 			productName = WebSpeakIOS;
 			productReference = B10000000000000000000007 /* WebSpeakIOS.app */;
 			productType = "com.apple.product-type.application";
+		};
+		E10000000000000000000002 /* WebSpeakLiveActivityExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F10000000000000000000003 /* Build configuration list for PBXNativeTarget "WebSpeakLiveActivityExtension" */;
+			buildPhases = (
+				C10000000000000000000005 /* Extension Sources */,
+				C10000000000000000000006 /* Extension Frameworks */,
+				C10000000000000000000007 /* Extension Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WebSpeakLiveActivityExtension;
+			packageProductDependencies = (
+			);
+			productName = WebSpeakLiveActivityExtension;
+			productReference = B10000000000000000000019 /* WebSpeakLiveActivityExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -138,6 +233,9 @@
 					E10000000000000000000001 = {
 						CreatedOnToolsVersion = 27.0;
 					};
+					E10000000000000000000002 = {
+						CreatedOnToolsVersion = 27.0;
+					};
 				};
 			};
 			buildConfigurationList = F10000000000000000000001 /* Build configuration list for PBXProject "WebSpeakIOS" */;
@@ -146,6 +244,10 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				zh-Hans,
+				de,
+				ru,
+				ja,
 				Base,
 			);
 			mainGroup = D10000000000000000000001;
@@ -157,6 +259,7 @@
 			projectRoot = "";
 			targets = (
 				E10000000000000000000001 /* WebSpeakIOS */,
+				E10000000000000000000002 /* WebSpeakLiveActivityExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -167,6 +270,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				A10000000000000000000006 /* Assets.xcassets in Resources */,
+				A10000000000000000000014 /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C10000000000000000000007 /* Extension Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000019 /* Localizable.xcstrings in Extension Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,6 +306,19 @@
 				A10000000000000000000011 /* AudioRoutePicker.swift in Sources */,
 				A10000000000000000000012 /* ScreenSharePublisherSession.swift in Sources */,
 				A10000000000000000000013 /* WebSocketVoiceAudioSession.swift in Sources */,
+				A10000000000000000000015 /* VoiceSessionLiveActivityAttributes.swift in Sources */,
+				A10000000000000000000016 /* VoiceSessionLiveActivityController.swift in Sources */,
+				A10000000000000000000021 /* LiveActivityMicrophoneIntent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C10000000000000000000005 /* Extension Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000020 /* VoiceSessionLiveActivityAttributes.swift in Extension Sources */,
+				A10000000000000000000017 /* WebSpeakLiveActivityWidget.swift in Sources */,
+				A10000000000000000000022 /* LiveActivityMicrophoneIntent.swift in Extension Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +439,59 @@
 			};
 			name = Release;
 		};
+		F20000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JY5U4D6JD3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WebSpeakLiveActivityExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.echosixhiya.webspeak.ios.LiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F20000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JY5U4D6JD3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WebSpeakLiveActivityExtension/Info.plist;
+
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.echosixhiya.webspeak.ios.LiveActivity;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -331,6 +509,15 @@
 			buildConfigurations = (
 				F20000000000000000000003 /* Debug */,
 				F20000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F10000000000000000000003 /* Build configuration list for PBXNativeTarget "WebSpeakLiveActivityExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F20000000000000000000005 /* Debug */,
+				F20000000000000000000006 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
