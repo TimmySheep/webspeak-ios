@@ -2,6 +2,24 @@
 
 > **简体中文** · [English](#english)
 
+## 界面预览 · Screenshots
+
+<p align="center">
+  <a href="docs/screenshots/dynamic-island-expanded.png"><img src="docs/screenshots/dynamic-island-expanded.png" width="760" alt="展开的 Dynamic Island，展示语音频道和麦克风、扬声器控件" /></a>
+  <br />
+  <sub>灵动岛展开态 · Expanded Dynamic Island</sub>
+</p>
+
+<table>
+  <tr>
+    <td align="center" valign="top"><strong>语音频道 · Voice channel</strong><br /><a href="docs/screenshots/voice-channel.png"><img src="docs/screenshots/voice-channel.png" width="240" alt="语音频道和匿名化成员状态" /></a></td>
+    <td align="center" valign="top"><strong>频道列表 · Channels</strong><br /><a href="docs/screenshots/channel-list.png"><img src="docs/screenshots/channel-list.png" width="240" alt="频道列表和匿名化成员名称" /></a></td>
+    <td align="center" valign="top"><strong>语音设置 · Voice settings</strong><br /><a href="docs/screenshots/settings.png"><img src="docs/screenshots/settings.png" width="240" alt="麦克风、语音处理和语言设置" /></a></td>
+  </tr>
+</table>
+
+<p align="center"><sub>界面预览；语音与屏幕共享的端到端验收状态见 <a href="taskbook/feature-parity.md">功能对照表</a>。 · UI previews only; see the <a href="taskbook/feature-parity.md">feature acceptance checklist</a> for end-to-end status.</sub></p>
+
 ## 简体中文
 
 WebSpeak 的原生 Apple 移动客户端，面向 **iPhone 与 iPad**，使用 SwiftUI 构建；不使用 WebView/PWA 作为主界面，也不包含 Mac target。
