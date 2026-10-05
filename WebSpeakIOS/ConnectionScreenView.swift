@@ -4,6 +4,8 @@ import UIKit
 struct ConnectionScreenView: View {
     @ObservedObject var model: WebSpeakAppModel
     @FocusState private var focusedField: ConnectionFieldName?
+    @Environment(\.scenePhase) private var scenePhase
+    @StateObject private var microphoneTest = MicrophoneTestSession()
 
     private var canConnect: Bool {
         !model.isBusy
@@ -24,6 +26,7 @@ struct ConnectionScreenView: View {
                         RecentConnectionsSection(model: model)
                     }
                     connectionCard
+                    microphoneTestCard
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 8)
@@ -35,11 +38,32 @@ struct ConnectionScreenView: View {
         }
         .navigationTitle("连接")
         .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Picker("应用语言", selection: $model.selectedLanguageCode) {
+                        Text("跟随系统").tag("system")
+                        Text("简体中文").tag("zh-Hans")
+                        Text("English").tag("en")
+                        Text("Deutsch").tag("de")
+                        Text("Русский").tag("ru")
+                        Text("日本語").tag("ja")
+                    }
+                } label: {
+                    Image(systemName: "globe")
+                }
+                .accessibilityLabel("应用语言")
+            }
+        }
         .task(id: model.gatewayAddress) {
             guard !model.gatewayAddress.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
             try? await Task.sleep(for: .milliseconds(400))
             guard !Task.isCancelled else { return }
             await model.refreshPublicConfig()
+        }
+        .onDisappear { microphoneTest.stop() }
+        .onChange(of: scenePhase) { _, phase in
+            if phase != .active { microphoneTest.stop() }
         }
     }
 
@@ -126,14 +150,25 @@ struct ConnectionScreenView: View {
                         name: .password
                     )
 
-                    ConnectionField(
-                        title: "邀请 Token",
-                        placeholder: "可选，一次性邀请",
-                        symbol: "ticket",
-                        text: $model.inviteToken,
-                        focused: $focusedField,
-                        name: .invite
-                    )
+                    if let webURL = model.webInviteShareURL,
+                       let nativeURL = model.nativeInviteShareURL
+                    {
+                        VStack(alignment: .leading, spacing: 8) {
+                            ShareLink(item: webURL) {
+                                Label("分享 HTTPS 邀请链接", systemImage: "square.and.arrow.up")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            ShareLink(item: nativeURL) {
+                                Label("分享 WebSpeak 应用链接", systemImage: "iphone.and.arrow.forward")
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            Text("链接只包含网关、频道和可选邀请 Token；不会包含服务器密码。HTTPS 链接默认打开网关网页；若要直接打开 App，需为对应网关配置 Universal Links。")
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .font(.subheadline.weight(.medium))
+                    }
 
                     if let relays = model.publicConfig?.accelerationRelays, !relays.isEmpty {
                         Picker("网络中继", selection: $model.selectedRelayID) {
@@ -217,6 +252,42 @@ struct ConnectionScreenView: View {
         }
         if model.publicConfig != nil { return "网关尚未完成初始化。" }
         return "连接前会先通过 HTTPS 验证网关。"
+    }
+
+    private var microphoneTestCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label("麦克风测试", systemImage: "waveform.badge.mic")
+                .font(.subheadline.weight(.semibold))
+            ProgressView(value: microphoneTest.level)
+                .tint(microphoneTest.level > 0.05 ? .green : .webSpeakBlue)
+                .accessibilityLabel("麦克风输入电平")
+                .accessibilityValue("\(Int((microphoneTest.level * 100).rounded()))%")
+
+            if let error = microphoneTest.errorMessage {
+                Text(error)
+                    .font(.caption)
+                    .foregroundStyle(.red)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            Button {
+                if microphoneTest.isRunning {
+                    microphoneTest.stop()
+                } else {
+                    Task { await microphoneTest.start() }
+                }
+            } label: {
+                Label(
+                    microphoneTest.isRunning ? "停止麦克风测试" : "开始麦克风测试",
+                    systemImage: microphoneTest.isRunning ? "stop.fill" : "mic"
+                )
+                .frame(maxWidth: .infinity, minHeight: 42)
+            }
+            .buttonStyle(.bordered)
+            .disabled(microphoneTest.isStarting)
+        }
+        .padding(17)
+        .background(Color(uiColor: .secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 19, style: .continuous))
     }
 
 }
@@ -310,7 +381,6 @@ private enum ConnectionFieldName: Hashable {
     case target
     case channel
     case password
-    case invite
 }
 
 private struct ConnectionField: View {
@@ -350,7 +420,7 @@ private struct ConnectionField: View {
                 }
                 .font(.body)
                 .textFieldStyle(.plain)
-                .submitLabel(name == .password || name == .invite ? .done : .next)
+                .submitLabel(name == .password ? .done : .next)
                 .onSubmit { advanceFocus() }
             }
             .padding(.horizontal, 13)
@@ -369,8 +439,7 @@ private struct ConnectionField: View {
         case .nickname: focused.wrappedValue = .target
         case .target: focused.wrappedValue = .channel
         case .channel: focused.wrappedValue = .password
-        case .password: focused.wrappedValue = .invite
-        case .invite: focused.wrappedValue = nil
+        case .password: focused.wrappedValue = nil
         }
     }
 }

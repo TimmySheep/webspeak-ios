@@ -13,18 +13,16 @@ final class WebRTCAudioSession: NSObject {
     )
     private var peerConnection: RTCPeerConnection?
     private var microphoneTrack: RTCAudioTrack?
+    private var remoteAudioTracks: [RTCAudioTrack] = []
+    private var speakerMuted = false
     private var gatheringContinuation: CheckedContinuation<Void, Never>?
     private var connectionTimeoutTask: Task<Void, Never>?
-    private var statisticsTask: Task<Void, Never>?
-    private var lastPacketsReceived: Int64?
-    private var lastPacketsLost: Int64?
     private var generatedCandidateCount = 0
     private var isStopped = false
     private var didReportFailure = false
 
     private(set) var isConnected = false
     var onStatusChange: ((String) -> Void)?
-    var onDiagnosticsChange: ((VoiceMediaDiagnostics) -> Void)?
     var onConnectionFailure: ((String) -> Void)?
 
     init(gatewaySocket: URLSessionWebSocketTask) {
@@ -100,7 +98,6 @@ final class WebRTCAudioSession: NSObject {
         try await setRemoteDescription(description, on: peerConnection)
         logger.info("WebRTC answer applied")
         onStatusChange?("WebRTC 信令已响应，正在等待媒体连接…")
-        startStatisticsPolling(for: peerConnection)
     }
 
     func setMuted(_ muted: Bool) {
@@ -111,6 +108,11 @@ final class WebRTCAudioSession: NSObject {
             : (muted ? "WebRTC 连接中；麦克风静音" : "WebRTC 连接中；麦克风已启用"))
     }
 
+    func setSpeakerMuted(_ muted: Bool) {
+        speakerMuted = muted
+        remoteAudioTracks.forEach { $0.isEnabled = !muted }
+    }
+
     func close() {
         guard !isStopped else { return }
         logger.info("Closing WebRTC audio session")
@@ -118,15 +120,11 @@ final class WebRTCAudioSession: NSObject {
         isConnected = false
         connectionTimeoutTask?.cancel()
         connectionTimeoutTask = nil
-        statisticsTask?.cancel()
-        statisticsTask = nil
-        lastPacketsReceived = nil
-        lastPacketsLost = nil
-        onDiagnosticsChange?(.unavailable)
         gatheringContinuation?.resume()
         gatheringContinuation = nil
         microphoneTrack?.isEnabled = false
         microphoneTrack = nil
+        remoteAudioTracks.removeAll()
         peerConnection?.delegate = nil
         peerConnection?.close()
         peerConnection = nil
@@ -213,81 +211,6 @@ final class WebRTCAudioSession: NSObject {
                 guard let self, let continuation = self.gatheringContinuation else { return }
                 self.gatheringContinuation = nil
                 continuation.resume()
-            }
-        }
-    }
-
-    private func startStatisticsPolling(for peer: RTCPeerConnection) {
-        statisticsTask?.cancel()
-        statisticsTask = Task { [weak self, weak peer] in
-            while !Task.isCancelled {
-                guard let self, let peer, !self.isStopped, self.peerConnection === peer else { return }
-                self.collectStatistics(from: peer)
-                try? await Task.sleep(for: .seconds(3))
-            }
-        }
-    }
-
-    private func collectStatistics(from peer: RTCPeerConnection) {
-        peer.statistics { [weak self, weak peer] report in
-            guard let self, let peer else { return }
-            let statistics = Array(report.statistics.values)
-            let selectedPairIDs = Set(statistics
-                .filter { $0.type == "transport" }
-                .compactMap { $0.values["selectedCandidatePairId"] as? String })
-            let selectedPair = statistics.first { stat in
-                guard stat.type == "candidate-pair" else { return false }
-                if selectedPairIDs.contains(stat.id) { return true }
-                let succeeded = (stat.values["state"] as? String) == "succeeded"
-                let nominated = (stat.values["nominated"] as? NSNumber)?.boolValue == true
-                return succeeded && nominated
-            }
-            let roundTripSeconds = (selectedPair?.values["currentRoundTripTime"] as? NSNumber)?.doubleValue
-
-            let inboundAudio = statistics.filter { stat in
-                guard stat.type == "inbound-rtp" else { return false }
-                let kind = (stat.values["kind"] as? String) ?? (stat.values["mediaType"] as? String)
-                return kind == "audio"
-            }
-            let received = inboundAudio.reduce(Int64(0)) { total, stat in
-                total + max(0, (stat.values["packetsReceived"] as? NSNumber)?.int64Value ?? 0)
-            }
-            let lost = inboundAudio.reduce(Int64(0)) { total, stat in
-                total + max(0, (stat.values["packetsLost"] as? NSNumber)?.int64Value ?? 0)
-            }
-            let outboundAudio = statistics.filter { stat in
-                guard stat.type == "outbound-rtp" else { return false }
-                let kind = (stat.values["kind"] as? String) ?? (stat.values["mediaType"] as? String)
-                return kind == "audio"
-            }
-            let sent = outboundAudio.reduce(Int64(0)) { total, stat in
-                total + max(0, (stat.values["packetsSent"] as? NSNumber)?.int64Value ?? 0)
-            }
-            let sentBytes = outboundAudio.reduce(Int64(0)) { total, stat in
-                total + max(0, (stat.values["bytesSent"] as? NSNumber)?.int64Value ?? 0)
-            }
-            let jitterSeconds = inboundAudio.compactMap { $0.values["jitter"] as? NSNumber }
-                .map(\.doubleValue)
-                .max()
-
-            Task { @MainActor [weak self, weak peer] in
-                guard let self, let peer, !self.isStopped, self.peerConnection === peer else { return }
-                let receivedDelta = self.lastPacketsReceived.map { max(0, received - $0) }
-                let lostDelta = self.lastPacketsLost.map { max(0, lost - $0) }
-                self.lastPacketsReceived = received
-                self.lastPacketsLost = lost
-                self.logger.debug("WebRTC audio RTP stats; inboundPackets=\(received, privacy: .public) inboundLost=\(lost, privacy: .public) outboundPackets=\(sent, privacy: .public) outboundBytes=\(sentBytes, privacy: .public)")
-                let intervalLoss: Double?
-                if let receivedDelta, let lostDelta, receivedDelta + lostDelta > 0 {
-                    intervalLoss = Double(lostDelta) / Double(receivedDelta + lostDelta) * 100
-                } else {
-                    intervalLoss = nil
-                }
-                self.onDiagnosticsChange?(VoiceMediaDiagnostics(
-                    roundTripMs: roundTripSeconds.map { max(0, Int(($0 * 1_000).rounded())) },
-                    jitterMs: jitterSeconds.map { max(0, Int(($0 * 1_000).rounded())) },
-                    packetLossPercent: intervalLoss
-                ))
             }
         }
     }
@@ -391,9 +314,13 @@ extension WebRTCAudioSession: RTCPeerConnectionDelegate {
         streams mediaStreams: [RTCMediaStream]
     ) {
         let track = rtpReceiver.track as? RTCAudioTrack
-        track?.isEnabled = true
-        Task { @MainActor [weak self] in
-            self?.logger.info("Remote WebRTC audio receiver track arrived; available=\(track != nil, privacy: .public)")
+        Task { @MainActor [weak self, weak track] in
+            guard let self, let track else { return }
+            if !self.remoteAudioTracks.contains(where: { $0 === track }) {
+                self.remoteAudioTracks.append(track)
+            }
+            track.isEnabled = !self.speakerMuted
+            self.logger.info("Remote WebRTC audio receiver track arrived; enabled=\(!self.speakerMuted, privacy: .public)")
         }
     }
 

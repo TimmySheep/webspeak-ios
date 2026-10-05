@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var model = WebSpeakAppModel()
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         Group {
@@ -14,6 +15,14 @@ struct ContentView: View {
             }
         }
         .tint(.webSpeakBlue)
+        .environment(\.locale, model.appLocale)
+        .onOpenURL { model.handleIncomingInviteURL($0) }
+        .onChange(of: scenePhase) { _, phase in
+            if phase != .active {
+                model.endPushToTalk()
+                model.endWhisperPushToTalk()
+            }
+        }
     }
 }
 

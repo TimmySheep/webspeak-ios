@@ -14,10 +14,10 @@ private enum WorkspaceSection: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .voice: "语音"
-        case .channels: "频道与成员"
+        case .channels: "频道"
         case .chat: "聊天"
         case .screenShares: "屏幕共享"
-        case .settings: "诊断与设置"
+        case .settings: "设置"
         }
     }
 
@@ -38,9 +38,7 @@ struct VoiceWorkspaceView: View {
     @State private var selectedSection: WorkspaceSection = .voice
 
     var body: some View {
-        VStack(spacing: 0) {
-            workspaceHeader
-
+        Group {
             if horizontalSizeClass == .regular {
                 iPadWorkspace
             } else {
@@ -59,40 +57,6 @@ struct VoiceWorkspaceView: View {
         .onChange(of: model.selectedChatScope) { _, scope in
             if scope == .privateMessage { selectedSection = .chat }
         }
-    }
-
-    private var workspaceHeader: some View {
-        HStack(spacing: 8) {
-            Image(systemName: "waveform")
-                .font(.system(size: 15, weight: .semibold))
-                .foregroundStyle(model.phase == .connected ? Color.green : Color.orange)
-                .frame(width: 34, height: 34)
-                .background(
-                    (model.phase == .connected ? Color.green : Color.orange).opacity(0.12),
-                    in: Circle()
-                )
-                .accessibilityHidden(true)
-            Text(model.phase.title)
-                .font(.headline)
-                .foregroundStyle(.primary)
-
-            Spacer()
-
-            Button(role: .destructive) {
-                model.disconnect()
-            } label: {
-                Label("断开", systemImage: "rectangle.portrait.and.arrow.right")
-                    .labelStyle(.iconOnly)
-                    .font(.body.weight(.medium))
-                    .frame(width: 42, height: 42)
-                    .contentShape(Circle())
-            }
-            .buttonStyle(.borderless)
-            .accessibilityLabel("断开 TeamSpeak 连接")
-        }
-        .padding(.horizontal, 15)
-        .padding(.vertical, 9)
-        .background(.bar)
     }
 
     private var iPadWorkspace: some View {
@@ -176,79 +140,57 @@ struct VoiceWorkspaceView: View {
 
 private struct VoiceStatusView: View {
     @ObservedObject var model: WebSpeakAppModel
+    @State private var showingAwayMessageEditor = false
+    @State private var awayMessageDraft = ""
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 19) {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text("TeamSpeak 会话")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(.secondary)
-                    Text(model.currentChannel?.name ?? "已连接")
-                        .font(.title2.weight(.bold))
-                    Text("\(model.members.count) 位在线成员")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-
-                StatusCard(
-                    title: model.isVoiceMediaConnected ? "实时语音已连接" : (model.isVoiceMediaStarting ? "正在连接语音媒体" : "语音媒体状态"),
-                    detail: model.mediaStatus,
-                    symbol: model.isVoiceMediaConnected ? "waveform" : "mic.slash.fill",
-                    color: model.isVoiceMediaConnected ? .green : .orange
-                )
-
-                HStack(spacing: 10) {
-                    mediaMetric("WebRTC RTT", value: model.voiceMediaDiagnostics.roundTripMs.map { "\($0) ms" } ?? "—")
-                    mediaMetric("Jitter", value: model.voiceMediaDiagnostics.jitterMs.map { "\($0) ms" } ?? "—")
-                    mediaMetric("丢包", value: model.voiceMediaDiagnostics.packetLossPercent.map { String(format: "%.1f%%", $0) } ?? "—")
-                }
-                .padding(13)
-                .webSpeakGlassCard(cornerRadius: 17)
-
-                HStack(spacing: 12) {
-                    Button {
-                        model.setMicrophoneMuted(!model.microphoneMuted)
-                    } label: {
-                        Label(
-                            model.microphoneMuted ? "开启麦克风" : "静音麦克风",
-                            systemImage: model.microphoneMuted ? "mic.slash.fill" : "mic.fill"
-                        )
-                        .font(.subheadline.weight(.semibold))
-                        .frame(maxWidth: .infinity, minHeight: 48)
+                HStack(alignment: .top, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(model.currentChannel?.name ?? "语音")
+                            .font(.largeTitle.weight(.bold))
+                        Text("\(model.currentChannelMembers.count) 位成员")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(!model.isVoiceMediaConnected || !model.canEnableMicrophone)
 
-                    Text(model.isPushToTalkActive ? "正在说话 · 松开结束" : "按住说话")
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(model.isVoiceMediaConnected ? Color.webSpeakBlue : Color.secondary)
-                        .frame(maxWidth: .infinity, minHeight: 48)
-                        .background(Color.webSpeakBlue.opacity(0.10), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-                        .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                        .gesture(
-                            DragGesture(minimumDistance: 0)
-                                .onChanged { _ in model.beginPushToTalk() }
-                                .onEnded { _ in model.endPushToTalk() }
-                        )
-                        .accessibilityElement()
-                        .accessibilityLabel("按住说话")
-                        .accessibilityValue(model.isPushToTalkActive ? "正在说话" : "已静音")
-                        .accessibilityAddTraits(.isButton)
-                        .disabled(!model.isVoiceMediaConnected || !model.canEnableMicrophone)
-                        .accessibilityAction {
-                            model.setMicrophoneMuted(!model.microphoneMuted)
-                        }
+                    Spacer(minLength: 4)
+                    awayStatusMenu
                 }
 
                 if !model.whisperTargetIDs.isEmpty {
-                    Toggle("对已选目标启用私语", isOn: Binding(
-                        get: { model.whisperActive },
-                        set: { model.setWhisperActive($0) }
-                    ))
-                    .font(.subheadline)
-                    .tint(.webSpeakBlue)
+                    VStack(spacing: 10) {
+                        Toggle("对已选目标启用私语", isOn: Binding(
+                            get: { model.whisperActive },
+                            set: { model.setWhisperActive($0) }
+                        ))
+                        .font(.subheadline)
+                        .tint(.webSpeakBlue)
+                        .disabled(model.isWhisperPushToTalkBusy)
+
+                        Text(model.isWhisperPushToTalkActive ? "正在向私语目标发送 · 松开结束" : "按住只向私语目标说话")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(model.isWhisperPushToTalkActive ? Color.white : Color.webSpeakBlue)
+                            .frame(maxWidth: .infinity, minHeight: 46)
+                            .background(
+                                model.isWhisperPushToTalkActive ? Color.green : Color.webSpeakBlue.opacity(0.10),
+                                in: RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            )
+                            .contentShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                            .gesture(
+                                DragGesture(minimumDistance: 0)
+                                    .onChanged { _ in model.beginWhisperPushToTalk() }
+                                    .onEnded { _ in model.endWhisperPushToTalk() }
+                            )
+                            .accessibilityElement()
+                            .accessibilityLabel("按住向私语目标说话")
+                            .accessibilityValue(model.isWhisperPushToTalkActive ? "正在私语；松开结束" : "已停止")
+                            .accessibilityAddTraits(.isButton)
+                            .accessibilityAction { model.setWhisperActive(!model.whisperActive) }
+                            .disabled(!model.isVoiceMediaConnected || !model.canEnableMicrophone || model.speakerMuted || model.isPushToTalkActive || model.isWhisperPushToTalkBusy)
+                    }
                     .padding(14)
                     .webSpeakGlassCard(cornerRadius: 17)
                 }
@@ -269,17 +211,21 @@ private struct VoiceStatusView: View {
                         Label("当前频道成员", systemImage: "person.2")
                             .font(.subheadline.weight(.semibold))
                         Spacer()
-                        Text("\(model.members.count)")
+                        Text("\(model.currentChannelMembers.count)")
                             .font(.caption.monospacedDigit())
                             .foregroundStyle(.secondary)
                     }
 
-                    if model.members.isEmpty {
+                    if model.currentChannelMembers.isEmpty {
                         ContentUnavailableView("暂无成员信息", systemImage: "person.2.slash")
                             .frame(minHeight: 120)
                     } else {
-                        ForEach(model.members) { member in
-                            MemberSummaryRow(member: member, speaking: model.speakingClientIDs.contains(member.id))
+                        ForEach(model.currentChannelMembers) { member in
+                            MemberSummaryRow(
+                                member: member,
+                                speaking: model.speakingClientIDs.contains(member.id),
+                                sharingScreen: model.isMemberSharingScreen(member)
+                            )
                         }
                     }
                 }
@@ -295,20 +241,141 @@ private struct VoiceStatusView: View {
             .frame(maxWidth: .infinity)
         }
         .scrollIndicators(.hidden)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            voiceControlBar
+        }
+        .alert("设置离开状态", isPresented: $showingAwayMessageEditor) {
+            TextField("离开原因（可选）", text: $awayMessageDraft)
+            Button("设为离开") { model.setAway(true, message: awayMessageDraft) }
+            Button("取消", role: .cancel) {}
+        } message: {
+            Text("最多 200 个字符；其他成员将看到“离开（原因）”。")
+        }
+        .onDisappear {
+            model.endWhisperPushToTalk()
+            model.endPushToTalk()
+        }
     }
 
-    private func mediaMetric(_ title: String, value: String) -> some View {
-        VStack(spacing: 4) {
-            Text(title)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-            Text(value)
-                .font(.caption.weight(.semibold).monospacedDigit())
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
+    private var awayStatusMenu: some View {
+        Menu {
+            Button {
+                model.setAway(false)
+            } label: {
+                Label("在线", systemImage: "person.fill")
+            }
+            Button {
+                awayMessageDraft = model.awayMessage
+                showingAwayMessageEditor = true
+            } label: {
+                Label("设置离开状态", systemImage: "moon.zzz")
+            }
+        } label: {
+            Label(model.isAway ? "离开" : "在线", systemImage: model.isAway ? "moon.zzz.fill" : "person.fill")
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(model.isAway ? Color.orange : Color.green)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 8)
+                .background((model.isAway ? Color.orange : Color.green).opacity(0.10), in: Capsule())
         }
+        .accessibilityLabel(model.isAway ? "当前状态：离开" : "当前状态：在线")
+        .accessibilityHint("更改在线状态或设置离开原因")
+    }
+
+    private var voiceControlBar: some View {
+        HStack(spacing: 12) {
+            microphoneControl
+            speakerControl
+            disconnectControl
+        }
+        .frame(maxWidth: 820)
+        .padding(.horizontal, 18)
+        .padding(.top, 10)
+        .padding(.bottom, 8)
         .frame(maxWidth: .infinity)
-        .accessibilityElement(children: .combine)
+        .background(.bar)
+        .overlay(alignment: .top) { Divider() }
+    }
+
+    private var disconnectControl: some View {
+        Button(role: .destructive) {
+            model.disconnect()
+        } label: {
+            Image(systemName: "rectangle.portrait.and.arrow.right")
+                .font(.body.weight(.medium))
+                .frame(width: 44, height: 48)
+                .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        }
+        .buttonStyle(.bordered)
+        .tint(.red)
+        .accessibilityLabel("断开 TeamSpeak 连接")
+    }
+
+    @ViewBuilder
+    private var microphoneControl: some View {
+        if model.microphoneControlMode == .pushToTalk {
+            Button {} label: {
+                Label(
+                    model.isPushToTalkActive
+                        ? "正在说话 · 松开结束"
+                        : (model.speakerMuted ? "扬声器关闭" : "按住说话"),
+                    systemImage: model.isPushToTalkActive ? "mic.fill" : "mic"
+                )
+                .font(.subheadline.weight(.semibold))
+                .frame(maxWidth: .infinity, minHeight: 48)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(model.speakerMuted ? .red : .webSpeakBlue)
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in model.beginPushToTalk() }
+                    .onEnded { _ in model.endPushToTalk() }
+            )
+            .disabled(!model.isVoiceMediaConnected || !model.canEnableMicrophone || model.speakerMuted || model.isWhisperPushToTalkBusy)
+            .accessibilityLabel("按住说话")
+            .accessibilityValue(model.isPushToTalkActive ? "正在说话，松开结束" : "麦克风已静音")
+            .accessibilityHint("按住按钮发言，松开后自动静音")
+            .accessibilityAction {
+                if model.isPushToTalkActive {
+                    model.endPushToTalk()
+                } else {
+                    model.beginPushToTalk()
+                }
+            }
+        } else {
+            Button {
+                model.setMicrophoneMuted(!model.microphoneMuted)
+            } label: {
+                Label(
+                    model.microphoneMuted ? "开启麦克风" : "静音麦克风",
+                    systemImage: model.microphoneMuted ? "mic.slash.fill" : "mic.fill"
+                )
+                .font(.subheadline.weight(.semibold))
+                .frame(maxWidth: .infinity, minHeight: 48)
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(model.microphoneMuted ? .red : .webSpeakBlue)
+            .disabled(!model.isVoiceMediaConnected || !model.canEnableMicrophone || model.speakerMuted || model.isWhisperPushToTalkBusy)
+            .accessibilityHint(model.speakerMuted ? "开启扬声器后才能启用麦克风" : "切换麦克风静音状态")
+        }
+    }
+
+    private var speakerControl: some View {
+        Button {
+            model.setSpeakerMuted(!model.speakerMuted)
+        } label: {
+            Label(
+                model.speakerMuted ? "开启扬声器" : "关闭扬声器",
+                systemImage: model.speakerMuted ? "speaker.slash.fill" : "speaker.wave.2.fill"
+            )
+            .font(.subheadline.weight(.semibold))
+            .frame(maxWidth: .infinity, minHeight: 48)
+        }
+        .buttonStyle(.borderedProminent)
+        .tint(model.speakerMuted ? .red : .webSpeakBlue)
+        .accessibilityHint("仅在本机静音或恢复频道语音播放，不改变系统音量或耳机路由")
     }
 }
 
@@ -338,11 +405,8 @@ private struct ChannelMemberListView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 17) {
-                VStack(alignment: .leading, spacing: 5) {
-                    SectionEyebrow(title: "实时目录")
-                    Text("频道与成员")
-                        .font(.title2.weight(.bold))
-                }
+                Text("频道")
+                    .font(.largeTitle.weight(.bold))
 
                 HStack(spacing: 9) {
                     Image(systemName: "magnifyingglass")
@@ -613,6 +677,15 @@ private struct MemberVolumeSheet: View {
 private struct MemberSummaryRow: View {
     let member: VoiceMember
     let speaking: Bool
+    let sharingScreen: Bool
+
+    private var presenceText: Text {
+        if member.away == true {
+            let reason = member.awayMessage?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            return reason.isEmpty ? Text("离开") : Text("离开") + Text(verbatim: "（\(reason)）")
+        }
+        return Text(speaking ? "正在说话" : "在线")
+    }
 
     var body: some View {
         HStack(spacing: 11) {
@@ -633,22 +706,36 @@ private struct MemberSummaryRow: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-                Text(speaking ? "正在说话" : (member.away == true ? "离开" : "在线"))
+                HStack(spacing: 4) {
+                    presenceText
+                        .foregroundStyle(speaking && member.away != true ? Color.green : Color.secondary)
+                    if sharingScreen {
+                        Text("·")
+                            .foregroundStyle(.tertiary)
+                        Label("屏幕共享", systemImage: "rectangle.on.rectangle")
+                            .foregroundStyle(Color.webSpeakBlue)
+                    }
+                }
                     .font(.caption)
-                    .foregroundStyle(speaking ? .green : .secondary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
             }
 
             Spacer()
 
-            if member.inputMuted == true {
-                Image(systemName: "mic.slash")
-                    .foregroundStyle(.secondary)
-                    .accessibilityLabel("麦克风静音")
+            if let inputMuted = member.inputMuted {
+                Image(systemName: inputMuted ? "mic.slash.fill" : "mic.fill")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(inputMuted ? Color.red : Color.webSpeakBlue)
+                    .frame(width: 18)
+                    .accessibilityLabel(inputMuted ? "麦克风静音" : "麦克风开启")
             }
-            if member.outputMuted == true {
-                Image(systemName: "speaker.slash")
-                    .foregroundStyle(.secondary)
-                    .accessibilityLabel("扬声器静音")
+            if let outputMuted = member.outputMuted {
+                Image(systemName: outputMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(outputMuted ? Color.secondary : Color.webSpeakBlue)
+                    .frame(width: 18)
+                    .accessibilityLabel(outputMuted ? "扬声器静音" : "扬声器开启")
             }
         }
         .padding(.vertical, 5)
@@ -730,6 +817,12 @@ private struct ChatSessionView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            Text("聊天")
+                .font(.largeTitle.weight(.bold))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 18)
+                .padding(.top, 10)
+
             Picker("聊天范围", selection: $model.selectedChatScope) {
                 ForEach(ChatScope.allCases) { scope in
                     Text(scope.title).tag(scope)
@@ -738,19 +831,6 @@ private struct ChatSessionView: View {
             .pickerStyle(.segmented)
             .padding(.horizontal, 16)
             .padding(.vertical, 11)
-
-            if model.selectedChatScope == .privateMessage {
-                Picker("私聊对象", selection: $model.privateRecipientID) {
-                    Text("选择在线成员").tag(Optional<Int>.none)
-                    ForEach(model.members.filter { $0.isSelf != true }) { member in
-                        Text(member.nickname).tag(Optional<Int>.some(member.id))
-                    }
-                }
-                .pickerStyle(.menu)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 17)
-                .padding(.bottom, 8)
-            }
 
             if filteredMessages.isEmpty {
                 ContentUnavailableView(
@@ -777,6 +857,27 @@ private struct ChatSessionView: View {
                         if let last = filteredMessages.last { proxy.scrollTo(last.id, anchor: .bottom) }
                     }
                 }
+            }
+
+            if model.selectedChatScope == .privateMessage {
+                HStack(spacing: 9) {
+                    Label("私聊对象", systemImage: "person.crop.circle")
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Picker("私聊对象", selection: $model.privateRecipientID) {
+                        Text("选择在线成员").tag(Optional<Int>.none)
+                        ForEach(model.members.filter { $0.isSelf != true }) { member in
+                            Text(member.nickname).tag(Optional<Int>.some(member.id))
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .accessibilityLabel("私聊对象")
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 7)
+                .background(.bar)
+                .overlay(alignment: .top) { Divider() }
             }
 
             HStack(spacing: 10) {
@@ -845,15 +946,12 @@ private struct ScreenShareDiscoveryView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 17) {
-                VStack(alignment: .leading, spacing: 5) {
-                    SectionEyebrow(title: "当前频道")
-                    Text("屏幕共享")
-                        .font(.title2.weight(.bold))
-                }
+                Text("屏幕共享")
+                    .font(.largeTitle.weight(.bold))
 
                 StatusCard(
                     title: "实时发现已接入",
-                    detail: "列表与协商信令通过 WebSpeak 网关；画面媒体走 WebRTC/ICE P2P，不经网关中继。iOS 27+ 使用系统 ScreenCaptureKit 选择器发送画面。",
+                    detail: "列表与协商信令通过 WebSpeak 网关；画面媒体走 WebRTC/ICE P2P，不经网关中继。",
                     symbol: "dot.radiowaves.left.and.right",
                     color: .green
                 )
@@ -883,7 +981,7 @@ private struct ScreenShareDiscoveryView: View {
                         .buttonStyle(.borderedProminent)
                         .disabled(model.phase != .connected)
 
-                        Text("仅 iOS 27 及以上支持系统屏幕采集；开始前会显示 Apple 系统选择器。本版本不共享系统音频。")
+                        Text("仅 iOS 27 及以上支持系统屏幕采集。选择整个屏幕后，iOS 的 screen-capture 后台模式允许离开 App 后继续采集；系统仍可因用户停止、权限或资源策略结束共享。本版本不共享系统音频。")
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                             .fixedSize(horizontal: false, vertical: true)
@@ -1085,11 +1183,123 @@ private struct SessionSettingsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 17) {
-                VStack(alignment: .leading, spacing: 5) {
-                    SectionEyebrow(title: "设置")
-                    Text("诊断与设置")
-                        .font(.title2.weight(.bold))
+                Text("设置")
+                    .font(.largeTitle.weight(.bold))
+
+                VStack(alignment: .leading, spacing: 11) {
+                    Label("麦克风控制", systemImage: "mic.badge.waveform")
+                        .font(.subheadline.weight(.semibold))
+                    Picker("麦克风模式", selection: Binding(
+                        get: { model.microphoneControlMode },
+                        set: { model.setMicrophoneControlMode($0) }
+                    )) {
+                        Text("点按开关").tag(MicrophoneControlMode.toggle)
+                        Text("按住说话").tag(MicrophoneControlMode.pushToTalk)
+                    }
+                    .pickerStyle(.segmented)
+                    .disabled(model.isWhisperPushToTalkBusy || model.isPushToTalkActive)
+                    Text(model.microphoneControlMode == .pushToTalk
+                        ? "按住语音首页的麦克风按钮发言，松开后自动静音。"
+                        : "点按语音首页的麦克风按钮，在开启与静音之间切换。扬声器关闭时麦克风不可启用。")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
+                .padding(16)
+                .webSpeakGlassCard(cornerRadius: 19)
+
+                VStack(alignment: .leading, spacing: 13) {
+                    Label("麦克风声音", systemImage: "waveform")
+                        .font(.subheadline.weight(.semibold))
+
+                    Toggle("说话时自动发送", isOn: $model.voiceActivityDetectionEnabled)
+                        .tint(.webSpeakBlue)
+                    Text(model.voiceActivityDetectionEnabled
+                        ? "安静时不发送；声音达到下方设定后才开始发送。"
+                        : "关闭时，只要麦克风开启就会持续发送声音。")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    if model.voiceActivityDetectionEnabled {
+                        HStack(spacing: 12) {
+                            Text("说话触发音量")
+                                .font(.caption)
+                            Slider(value: Binding(
+                                get: { model.voiceActivityThreshold },
+                                set: { model.voiceActivityThreshold = $0 }
+                            ), in: 0.001 ... 0.08, step: 0.001)
+                                .tint(.webSpeakBlue)
+                                .accessibilityLabel("说话触发音量")
+                            Text(String(format: "%.1f%%", model.voiceActivityThreshold * 100))
+                                .font(.caption.monospacedDigit())
+                                .frame(width: 46, alignment: .trailing)
+                        }
+                    }
+
+                    Toggle("降噪与回声处理", isOn: $model.noiseSuppressionEnabled)
+                        .tint(.webSpeakBlue)
+                    Text("使用 iOS 内置通话语音处理，尝试减轻背景声和回声；不是单独的降噪滤镜。")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    Text("这两项只作用于旧版 WebSocket 语音；WebRTC 通话由 iOS 自带通话处理。")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    if !model.gatewayWebRTCAvailable {
+                        HStack(spacing: 9) {
+                            Text("麦克风输入")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            ProgressView(value: model.microphoneInputLevel)
+                                .tint(.webSpeakBlue)
+                            Text("\(Int((model.microphoneInputLevel * 100).rounded()))%")
+                                .font(.caption2.monospacedDigit())
+                                .frame(width: 38, alignment: .trailing)
+                        }
+                    }
+                }
+                .padding(16)
+                .webSpeakGlassCard(cornerRadius: 19)
+
+                VStack(alignment: .leading, spacing: 11) {
+                    Label("语言", systemImage: "globe")
+                        .font(.subheadline.weight(.semibold))
+                    Picker("应用语言", selection: $model.selectedLanguageCode) {
+                        Text("跟随系统").tag("system")
+                        Text("简体中文").tag("zh-Hans")
+                        Text("English").tag("en")
+                        Text("Deutsch").tag("de")
+                        Text("Русский").tag("ru")
+                        Text("日本語").tag("ja")
+                    }
+                    .pickerStyle(.menu)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(16)
+                .webSpeakGlassCard(cornerRadius: 19)
+
+                VStack(alignment: .leading, spacing: 10) {
+                    Toggle(isOn: Binding(
+                        get: { model.pokeNotificationsEnabled },
+                        set: { model.setPokeNotificationsEnabled($0) }
+                    )) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("后台消息通知")
+                                .font(.subheadline.weight(.medium))
+                            Text("当别人向你发送提醒时，在后台显示本机通知；普通聊天消息不推送。需允许通知，并且语音连接仍在运行。")
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                    .tint(.webSpeakBlue)
+                }
+                .padding(16)
+                .webSpeakGlassCard(cornerRadius: 19)
 
                 VStack(spacing: 0) {
                     HStack(spacing: 12) {
@@ -1100,17 +1310,6 @@ private struct SessionSettingsView: View {
                             .frame(width: 42, height: 42)
                     }
                     .padding(.horizontal, 16)
-
-                    Divider().padding(.leading, 16)
-
-                    HStack {
-                        Label("语音媒体", systemImage: "waveform")
-                        Spacer()
-                        Text(model.isVoiceMediaConnected ? "已连接" : (model.isVoiceMediaStarting ? "连接中" : "未连接"))
-                            .foregroundStyle(model.isVoiceMediaConnected ? .green : .orange)
-                    }
-                    .font(.subheadline)
-                    .padding(16)
 
                     Divider().padding(.leading, 16)
 
@@ -1130,32 +1329,6 @@ private struct SessionSettingsView: View {
                         Label("TeamSpeak 延迟", systemImage: "server.rack")
                         Spacer()
                         Text(model.teamSpeakLatencyMs.map { "\($0) ms" } ?? "—")
-                            .monospacedDigit()
-                            .foregroundStyle(.secondary)
-                    }
-                    .font(.subheadline)
-                    .padding(16)
-
-                    Divider().padding(.leading, 16)
-
-                    HStack {
-                        Label("WebRTC RTT", systemImage: "waveform.path")
-                        Spacer()
-                        Text(model.voiceMediaDiagnostics.roundTripMs.map { "\($0) ms" } ?? "—")
-                            .monospacedDigit()
-                            .foregroundStyle(.secondary)
-                    }
-                    .font(.subheadline)
-                    .padding(16)
-
-                    Divider().padding(.leading, 16)
-
-                    HStack {
-                        Label("WebRTC Jitter / 丢包", systemImage: "waveform.path.ecg")
-                        Spacer()
-                        let jitter = model.voiceMediaDiagnostics.jitterMs.map { "\($0) ms" } ?? "—"
-                        let loss = model.voiceMediaDiagnostics.packetLossPercent.map { String(format: "%.1f%%", $0) } ?? "—"
-                        Text("\(jitter) / \(loss)")
                             .monospacedDigit()
                             .foregroundStyle(.secondary)
                     }
