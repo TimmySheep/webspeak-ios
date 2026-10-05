@@ -723,15 +723,19 @@ private struct MemberSummaryRow: View {
 
             Spacer()
 
-            if member.inputMuted == true {
-                Image(systemName: "mic.slash")
-                    .foregroundStyle(.secondary)
-                    .accessibilityLabel("麦克风静音")
+            if let inputMuted = member.inputMuted {
+                Image(systemName: inputMuted ? "mic.slash.fill" : "mic.fill")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(inputMuted ? Color.red : Color.webSpeakBlue)
+                    .frame(width: 18)
+                    .accessibilityLabel(inputMuted ? "麦克风静音" : "麦克风开启")
             }
-            if member.outputMuted == true {
-                Image(systemName: "speaker.slash")
-                    .foregroundStyle(.secondary)
-                    .accessibilityLabel("扬声器静音")
+            if let outputMuted = member.outputMuted {
+                Image(systemName: outputMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(outputMuted ? Color.secondary : Color.webSpeakBlue)
+                    .frame(width: 18)
+                    .accessibilityLabel(outputMuted ? "扬声器静音" : "扬声器开启")
             }
         }
         .padding(.vertical, 5)
