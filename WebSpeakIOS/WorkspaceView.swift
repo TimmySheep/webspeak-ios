@@ -14,10 +14,10 @@ private enum WorkspaceSection: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .voice: "语音"
-        case .channels: "频道与成员"
+        case .channels: "频道"
         case .chat: "聊天"
         case .screenShares: "屏幕共享"
-        case .settings: "诊断与设置"
+        case .settings: "设置"
         }
     }
 
@@ -405,7 +405,7 @@ private struct ChannelMemberListView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 17) {
-                Text("频道与成员")
+                Text("频道")
                     .font(.largeTitle.weight(.bold))
 
                 HStack(spacing: 9) {
@@ -1183,7 +1183,7 @@ private struct SessionSettingsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 17) {
-                Text("诊断与设置")
+                Text("设置")
                     .font(.largeTitle.weight(.bold))
 
                 VStack(alignment: .leading, spacing: 11) {

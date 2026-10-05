@@ -372,7 +372,7 @@ private struct ChannelsPreview: View {
             VStack(alignment: .leading, spacing: 17) {
                 PrototypeNotice()
                 VStack(alignment: .leading, spacing: 5) {
-                    SectionEyebrow(title: "频道与成员")
+                    SectionEyebrow(title: "频道")
                     Text("语音频道")
                         .font(.title2.weight(.bold))
                 }

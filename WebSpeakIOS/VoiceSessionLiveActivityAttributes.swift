@@ -22,6 +22,7 @@ struct WebSpeakVoiceLiveActivityAttributes: ActivityAttributes {
         }
 
         var channelName: String
+        var memberCount: Int?
         var localeIdentifier: String
         var connectionStatus: ConnectionStatus
         var microphoneMuted: Bool

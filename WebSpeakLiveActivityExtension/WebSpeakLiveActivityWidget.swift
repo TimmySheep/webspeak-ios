@@ -38,41 +38,26 @@ struct WebSpeakLiveActivityWidget: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    Image(systemName: "waveform")
-                        .font(.title2)
-                        .foregroundStyle(.blue)
-                        .environment(\.locale, Locale(identifier: context.state.localeIdentifier))
+                    speakerAction(context)
                 }
                 DynamicIslandExpandedRegion(.center) {
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text("WebSpeak")
-                            .font(.caption.weight(.semibold))
+                    VStack(alignment: .center, spacing: 3) {
                         Text(context.state.channelName)
-                            .font(.caption2)
+                            .font(.caption.weight(.semibold))
                             .lineLimit(1)
+                            .frame(maxWidth: .infinity)
+                        if let memberCount = context.state.memberCount {
+                            Label("\(memberCount)", systemImage: "person.2.fill")
+                                .font(.caption2.weight(.medium))
+                                .foregroundStyle(.secondary)
+                                .accessibilityLabel("\(memberCount) 位成员")
+                        }
                     }
                     .environment(\.locale, Locale(identifier: context.state.localeIdentifier))
                 }
-                DynamicIslandExpandedRegion(.bottom) {
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack(spacing: 10) {
-                            microphoneAction(context)
-                            if context.state.connectionStatus != .connected {
-                                connectionStatus(context.state.connectionStatus)
-                            }
-                            Spacer(minLength: 0)
-                        }
-                        HStack(spacing: 12) {
-                            speakerStatus(context.state.speakerMuted)
-                            if context.state.screenShareStatus != .none {
-                                screenShareStatus(context.state.screenShareStatus)
-                            }
-                        }
-                    }
-                    .font(.caption2.weight(.medium))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-                    .environment(\.locale, Locale(identifier: context.state.localeIdentifier))
+
+                DynamicIslandExpandedRegion(.trailing) {
+                    microphoneAction(context)
                 }
             } compactLeading: {
                 Image(systemName: "waveform")
@@ -96,42 +81,20 @@ struct WebSpeakLiveActivityWidget: Widget {
     private func microphoneAction(_ context: ActivityViewContext<WebSpeakVoiceLiveActivityAttributes>) -> some View {
         if context.state.microphoneMode == .toggle {
             Button(intent: ToggleLiveActivityMicrophoneIntent(sessionID: context.attributes.sessionID)) {
-                HStack(spacing: 9) {
-                    Image(systemName: context.state.microphoneMuted ? "mic.fill" : "mic.slash.fill")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(.white)
-                        .frame(width: 30, height: 30)
-                        .background(Color.white.opacity(0.13), in: Circle())
-                        .overlay {
-                            Circle()
-                                .strokeBorder(Color.white.opacity(0.82), lineWidth: 1)
-                        }
-
-                    VStack(alignment: .leading, spacing: 1) {
-                        Text(context.state.microphoneMuted ? "麦克风静音" : "麦克风开启")
-                            .font(.caption2.weight(.medium))
-                            .foregroundStyle(Color.white.opacity(0.78))
-                        Text(context.state.microphoneMuted ? "开启麦克风" : "静音麦克风")
-                            .font(.caption.weight(.bold))
-                            .foregroundStyle(.white)
+                Image(systemName: context.state.microphoneMuted ? "mic.slash.fill" : "mic.fill")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 46, height: 46)
+                    .background(
+                        context.state.microphoneToggleEnabled
+                            ? (context.state.microphoneMuted ? Color.blue : Color.red)
+                            : Color.gray.opacity(0.55),
+                        in: Circle()
+                    )
+                    .overlay {
+                        Circle()
+                            .strokeBorder(Color.white.opacity(0.72), lineWidth: 1)
                     }
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.75)
-                }
-                .padding(.leading, 6)
-                .padding(.trailing, 12)
-                .frame(minHeight: 44)
-                .background(
-                    context.state.microphoneToggleEnabled
-                        ? (context.state.microphoneMuted ? Color.blue : Color.red)
-                        : Color.gray.opacity(0.55),
-                    in: RoundedRectangle(cornerRadius: 23, style: .continuous)
-                )
-                .overlay {
-                    RoundedRectangle(cornerRadius: 23, style: .continuous)
-                        .strokeBorder(Color.white.opacity(0.42), lineWidth: 1)
-                }
-                .contentShape(RoundedRectangle(cornerRadius: 23, style: .continuous))
             }
             .buttonStyle(.plain)
             .disabled(!context.state.microphoneToggleEnabled)
@@ -139,10 +102,37 @@ struct WebSpeakLiveActivityWidget: Widget {
             .accessibilityHint(context.state.speakerMuted ? "开启扬声器后才能启用麦克风" : "切换麦克风")
             .environment(\.locale, Locale(identifier: context.state.localeIdentifier))
         } else {
-            microphoneStatus(context.state)
+            Image(systemName: context.state.pushToTalkActive ? "mic.fill" : "mic.slash.fill")
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 46, height: 46)
+                .background(context.state.pushToTalkActive ? Color.red : Color.gray.opacity(0.55), in: Circle())
+                .overlay {
+                    Circle()
+                        .strokeBorder(Color.white.opacity(0.72), lineWidth: 1)
+                }
+                .accessibilityLabel(context.state.pushToTalkActive ? "正在发言" : "PTT 等待")
                 .accessibilityHint("PTT 模式请在 App 内按住说话")
                 .environment(\.locale, Locale(identifier: context.state.localeIdentifier))
         }
+    }
+
+    private func speakerAction(_ context: ActivityViewContext<WebSpeakVoiceLiveActivityAttributes>) -> some View {
+        Button(intent: ToggleLiveActivitySpeakerIntent(sessionID: context.attributes.sessionID)) {
+            Image(systemName: context.state.speakerMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 46, height: 46)
+                .background(context.state.speakerMuted ? Color.gray.opacity(0.65) : Color.blue, in: Circle())
+                .overlay {
+                    Circle()
+                        .strokeBorder(Color.white.opacity(0.72), lineWidth: 1)
+                }
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(context.state.speakerMuted ? "开启扬声器" : "关闭扬声器")
+        .accessibilityHint(context.state.speakerMuted ? "打开扬声器；不会自动开启麦克风" : "关闭扬声器并静音麦克风")
+        .environment(\.locale, Locale(identifier: context.state.localeIdentifier))
     }
 
     @ViewBuilder

@@ -198,6 +198,9 @@ final class WebSpeakAppModel: ObservableObject {
         LiveActivityIntentBridge.shared.registerMicrophoneToggleHandler { [weak self] sessionID in
             self?.toggleMicrophoneFromLiveActivity(sessionID: sessionID)
         }
+        LiveActivityIntentBridge.shared.registerSpeakerToggleHandler { [weak self] sessionID in
+            self?.toggleSpeakerFromLiveActivity(sessionID: sessionID)
+        }
     }
 
     var isBusy: Bool {
@@ -283,6 +286,7 @@ final class WebSpeakAppModel: ObservableObject {
 
         let state = WebSpeakVoiceLiveActivityAttributes.ContentState(
             channelName: String((currentChannel?.name ?? "TeamSpeak").prefix(64)),
+            memberCount: currentChannel?.members?.count ?? members.count,
             localeIdentifier: appLocale.identifier,
             connectionStatus: connectionStatus,
             microphoneMuted: microphoneMuted,
@@ -312,6 +316,14 @@ final class WebSpeakAppModel: ObservableObject {
             guard !speakerMuted, isVoiceMediaConnected, canEnableMicrophone else { return }
         }
         setMicrophoneMuted(targetMuted)
+    }
+
+    private func toggleSpeakerFromLiveActivity(sessionID: String) {
+        guard voiceLiveActivitySessionID == sessionID,
+              phase == .connected || phase == .reconnecting
+        else { return }
+
+        setSpeakerMuted(!speakerMuted)
     }
 
     var currentChannelMembers: [VoiceMember] {
