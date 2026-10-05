@@ -45,7 +45,7 @@ extension View {
 struct PrototypeNotice: View {
     var body: some View {
         Label {
-            Text("界面原型 · 尚未连接服务器")
+            Text("离线示例 · 不连接服务器或采集音频")
                 .font(.footnote.weight(.medium))
         } icon: {
             Image(systemName: "eye")
