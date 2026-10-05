@@ -1,0 +1,16 @@
+# Xcode user state and local build products
+DerivedData/
+build/
+*.xcuserstate
+*.xccheckout
+xcuserdata/
+
+# Local temporary files and captures
+/tmp/
+
+# Private collaboration rules and local development records
+/AGENTS.md
+/logs/
+
+# macOS metadata
+.DS_Store
