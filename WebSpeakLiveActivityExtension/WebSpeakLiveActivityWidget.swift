@@ -96,22 +96,42 @@ struct WebSpeakLiveActivityWidget: Widget {
     private func microphoneAction(_ context: ActivityViewContext<WebSpeakVoiceLiveActivityAttributes>) -> some View {
         if context.state.microphoneMode == .toggle {
             Button(intent: ToggleLiveActivityMicrophoneIntent(sessionID: context.attributes.sessionID)) {
-                Label(
-                    context.state.microphoneMuted ? "开启麦克风" : "静音麦克风",
-                    systemImage: context.state.microphoneMuted ? "mic.fill" : "mic.slash.fill"
-                )
-                .font(.caption2.weight(.semibold))
-                .lineLimit(1)
-                .minimumScaleFactor(0.75)
-                .foregroundStyle(.white)
-                .padding(.horizontal, 11)
-                .frame(minHeight: 40)
+                HStack(spacing: 9) {
+                    Image(systemName: context.state.microphoneMuted ? "mic.fill" : "mic.slash.fill")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .frame(width: 30, height: 30)
+                        .background(Color.white.opacity(0.13), in: Circle())
+                        .overlay {
+                            Circle()
+                                .strokeBorder(Color.white.opacity(0.82), lineWidth: 1)
+                        }
+
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(context.state.microphoneMuted ? "麦克风静音" : "麦克风开启")
+                            .font(.caption2.weight(.medium))
+                            .foregroundStyle(Color.white.opacity(0.78))
+                        Text(context.state.microphoneMuted ? "开启麦克风" : "静音麦克风")
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(.white)
+                    }
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.75)
+                }
+                .padding(.leading, 6)
+                .padding(.trailing, 12)
+                .frame(minHeight: 44)
                 .background(
                     context.state.microphoneToggleEnabled
                         ? (context.state.microphoneMuted ? Color.blue : Color.red)
-                        : Color.gray.opacity(0.45),
-                    in: Capsule()
+                        : Color.gray.opacity(0.55),
+                    in: RoundedRectangle(cornerRadius: 23, style: .continuous)
                 )
+                .overlay {
+                    RoundedRectangle(cornerRadius: 23, style: .continuous)
+                        .strokeBorder(Color.white.opacity(0.42), lineWidth: 1)
+                }
+                .contentShape(RoundedRectangle(cornerRadius: 23, style: .continuous))
             }
             .buttonStyle(.plain)
             .disabled(!context.state.microphoneToggleEnabled)
