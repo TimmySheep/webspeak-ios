@@ -25,6 +25,7 @@ struct ConnectionScreenView: View {
                     if !model.recentConnections.isEmpty {
                         RecentConnectionsSection(model: model)
                     }
+                    demoCard
                     connectionCard
                     microphoneTestCard
                 }
@@ -65,6 +66,55 @@ struct ConnectionScreenView: View {
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { microphoneTest.stop() }
         }
+    }
+
+    private var demoCard: some View {
+        NavigationLink {
+            WorkspacePreviewView()
+        } label: {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Label("无需服务器", systemImage: "wifi.slash")
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(Color.webSpeakBlue)
+
+                    Spacer()
+
+                    Text("DEMO")
+                        .font(.caption2.weight(.bold))
+                        .tracking(0.8)
+                        .foregroundStyle(Color.webSpeakBlue)
+                        .padding(.horizontal, 9)
+                        .padding(.vertical, 5)
+                        .background(Color.webSpeakBlue.opacity(0.10), in: Capsule())
+                }
+
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("先体验 WebSpeak")
+                        .font(.title3.weight(.semibold))
+                        .foregroundStyle(.primary)
+
+                    Text("浏览语音、频道、聊天和灵动岛示例。使用离线演示数据，不会连接服务器、录音或发送消息。")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                Label("开始体验", systemImage: "arrow.right")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(Color.webSpeakBlue)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(18)
+            .background(Color(uiColor: .secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .strokeBorder(Color.webSpeakBlue.opacity(0.14), lineWidth: 1)
+            }
+            .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint("打开离线示例工作区；不会连接服务器或启用麦克风")
     }
 
     private var connectionCard: some View {

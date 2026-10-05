@@ -26,6 +26,8 @@ WebSpeak 的原生 Apple 移动客户端，面向 **iPhone 与 iPad**，使用 S
 
 **当前状态：** 客户端主要功能已接入，正在进行构建验证与设备/网关验收。已在 iPhone 15 / iOS 27.0 验证安装、启动和读取公开网关配置；本机通用 iOS Simulator 与 iOS 设备 SDK Debug 构建通过。入会、实时语音、屏幕共享及后台/蓝牙行为尚未完成端到端验收。逐项状态和验收条件见 [`taskbook/feature-parity.md`](taskbook/feature-parity.md)。
 
+无需自建服务器也可以从连接首页打开 **离线体验 Demo**，浏览语音、频道、聊天、设置和示例灵动岛。演示数据不会连接网关、录音或发送消息；灵动岛展示仅适用于支持该硬件且允许 Live Activities 的设备。
+
 ## 工具链
 
 - Xcode 27 / iOS SDK 27
@@ -61,6 +63,8 @@ AGPL-3.0-only，详见 [`LICENSE`](LICENSE)。
 WebSpeak's native Apple mobile client for **iPhone and iPad**, built with SwiftUI. The main interface does not use a WebView or PWA, and the project has no Mac target.
 
 **Status:** Most client features are integrated; build checks and device/gateway acceptance are in progress. Installation, launch, and public gateway configuration reading were verified on an iPhone 15 running iOS 27.0. Debug builds for the generic iOS Simulator and iOS device SDK also pass locally. Joining a server, live voice, screen sharing, and background/Bluetooth behavior have not yet completed end-to-end acceptance. See [`taskbook/feature-parity.md`](taskbook/feature-parity.md) for per-feature status and acceptance criteria.
+
+No server is required to explore the app: open **Offline Demo** from the connection screen to browse sample voice, channel, chat, settings, and Live Activity views. Demo data never connects to a gateway, records audio, or sends messages. Dynamic Island display requires a supported iPhone with Live Activities enabled.
 
 ## Toolchain
 

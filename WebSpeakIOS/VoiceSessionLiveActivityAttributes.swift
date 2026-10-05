@@ -1,6 +1,8 @@
 import ActivityKit
 
 struct WebSpeakVoiceLiveActivityAttributes: ActivityAttributes {
+    static let demoSessionIDPrefix = "demo-"
+
     struct ContentState: Codable, Hashable {
         enum ConnectionStatus: String, Codable, Hashable {
             case connected
@@ -34,4 +36,8 @@ struct WebSpeakVoiceLiveActivityAttributes: ActivityAttributes {
     }
 
     var sessionID: String
+
+    var isDemo: Bool {
+        sessionID.hasPrefix(Self.demoSessionIDPrefix)
+    }
 }

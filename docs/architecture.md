@@ -5,6 +5,7 @@
 - App 原生支持 iPhone 与 iPad；没有 macOS target，不把 WebView/PWA 作为主界面。
 - App 负责 Apple 原生 UI、连接表单、设备偏好、授权说明、会话呈现与平台生命周期。
 - WebSpeak 服务继续负责 TeamSpeak 3/6 ServerQuery 会话、频道/成员同步、既有控制协议和屏幕共享信令；未经授权不修改服务端。
+- 连接页的离线 Demo 使用纯本地样例数据；模拟麦克风/扬声器状态只更新带有专用 `demo-` 会话标识的 Live Activity，不调用网关、麦克风或音频路由。
 - WebSpeak 现有屏幕共享只转发 SDP/ICE 协商，媒体走 WebRTC/ICE 对等链路。客户端不得误将共享媒体转发到网关。
 
 ## 连接协议边界

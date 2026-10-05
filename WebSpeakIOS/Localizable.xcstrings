@@ -3395,6 +3395,134 @@
           }
         }
       }
+    },
+    "无需服务器" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Kein Server erforderlich" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No server required" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "サーバー不要" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Сервер не требуется" } }
+      }
+    },
+    "先体验 WebSpeak" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "WebSpeak ausprobieren" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Explore WebSpeak" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "WebSpeak を体験" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Оцените WebSpeak" } }
+      }
+    },
+    "浏览语音、频道、聊天和灵动岛示例。使用离线演示数据，不会连接服务器、录音或发送消息。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Entdecke Sprach-, Kanal-, Chat- und Dynamic-Island-Beispiele mit Offline-Daten. Es wird keine Verbindung hergestellt, nichts aufgenommen oder gesendet." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Browse sample voice, channel, chat, and Dynamic Island screens offline. No server connection, recording, or messages." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "音声、チャンネル、チャット、Dynamic Island のサンプルをオフラインで確認できます。サーバー接続、録音、メッセージ送信は行いません。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Посмотрите примеры голосового чата, каналов, сообщений и Dynamic Island офлайн. Подключения к серверу, записи и отправки сообщений нет." } }
+      }
+    },
+    "开始体验" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Demo starten" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Start Demo" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "デモを開始" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Начать демо" } }
+      }
+    },
+    "打开离线示例工作区；不会连接服务器或启用麦克风" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Öffnet den Offline-Demo-Arbeitsbereich ohne Serververbindung oder Mikrofonzugriff" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Opens the offline demo workspace without connecting to a server or using the microphone" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "サーバーに接続したりマイクを使用したりせず、オフラインデモを開きます" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Открывает офлайн-демо без подключения к серверу и доступа к микрофону" } }
+      }
+    },
+    "离线体验 Demo" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Offline-Demo" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Offline Demo" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "オフラインデモ" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Офлайн-демо" } }
+      }
+    },
+    "示例数据" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Beispieldaten" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sample data" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "サンプルデータ" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Пример данных" } }
+      }
+    },
+    "离线示例 · 不连接服务器或采集音频" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Offline-Demo · keine Serververbindung oder Audioaufnahme" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Offline demo · no server connection or audio capture" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "オフラインデモ · サーバー接続・音声収録なし" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Офлайн-демо · без подключения и записи звука" } }
+      }
+    },
+    "灵动岛示例" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Dynamic-Island-Demo" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dynamic Island Demo" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Dynamic Island デモ" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Демо Dynamic Island" } }
+      }
+    },
+    "灵动岛示例尚未启动。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Das Dynamic-Island-Demo wurde noch nicht gestartet." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The Dynamic Island demo has not started yet." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Dynamic Island デモはまだ開始されていません。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Демо Dynamic Island ещё не запущено." } }
+      }
+    },
+    "正在启动示例 Live Activity…" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Demo-Live Activity wird gestartet …" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Starting the demo Live Activity…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "デモ Live Activity を起動中…" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Запуск демонстрационной Live Activity…" } }
+      }
+    },
+    "示例 Live Activity 已启动。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Demo-Live Activity gestartet." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The demo Live Activity is active." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "デモ Live Activity が起動しました。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Демонстрационная Live Activity запущена." } }
+      }
+    },
+    "Live Activities 当前已关闭，请检查系统设置后重试。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Live Activities sind deaktiviert. Prüfe die Systemeinstellungen und versuche es erneut." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Live Activities are disabled. Check System Settings and try again." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Live Activities がオフです。システム設定を確認して再試行してください。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Live Activities отключены. Проверьте настройки системы и повторите попытку." } }
+      }
+    },
+    "系统暂时无法启动示例 Live Activity，请稍后重试。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Die Demo-Live Activity kann gerade nicht gestartet werden. Versuche es später erneut." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The demo Live Activity could not start. Please try again later." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "デモ Live Activity を開始できませんでした。後でもう一度お試しください。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Не удалось запустить Live Activity. Повторите попытку позже." } }
+      }
+    },
+    "重试灵动岛示例" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Dynamic-Island-Demo erneut versuchen" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Retry Dynamic Island Demo" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Dynamic Island デモを再試行" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Повторить запуск демо Dynamic Island" } }
+      }
+    },
+    "仅支持灵动岛的 iPhone 会显示在岛上；这里的麦克风和扬声器状态均为模拟。" : {
+      "localizations" : {
+        "de" : { "stringUnit" : { "state" : "translated", "value" : "Nur iPhones mit Dynamic Island zeigen die Aktivität dort an. Mikrofon- und Lautsprecherstatus sind simuliert." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Only iPhones with Dynamic Island show it there. Microphone and speaker states are simulated." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Dynamic Island 対応 iPhone のみ島に表示されます。マイクとスピーカーの状態はシミュレーションです。" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "На Dynamic Island активность отображается только на поддерживаемых iPhone. Состояния микрофона и динамика смоделированы." } }
+      }
     }
   },
   "version" : "1.0"

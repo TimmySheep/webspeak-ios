@@ -32,7 +32,9 @@ struct WorkspacePreviewView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var selectedTab: WorkspaceTab = .voice
     @State private var microphoneMuted = false
+    @State private var speakerMuted = false
     @State private var pushToTalkActive = false
+    @StateObject private var liveActivityController = DemoLiveActivityController()
 
     var body: some View {
         VStack(spacing: 0) {
@@ -49,12 +51,38 @@ struct WorkspacePreviewView: View {
         }
         .navigationBarBackButtonHidden()
         .toolbar(.hidden, for: .navigationBar)
+        .task {
+            liveActivityController.start()
+        }
+        .onChange(of: microphoneMuted) { _, _ in
+            updateLiveActivity()
+        }
+        .onChange(of: speakerMuted) { _, _ in
+            updateLiveActivity()
+        }
+        .onChange(of: pushToTalkActive) { _, _ in
+            updateLiveActivity()
+        }
+        .onDisappear {
+            Task { await liveActivityController.end() }
+        }
+    }
+
+    private func updateLiveActivity() {
+        liveActivityController.update(
+            microphoneMuted: microphoneMuted,
+            speakerMuted: speakerMuted,
+            pushToTalkActive: pushToTalkActive
+        )
     }
 
     private var workspaceHeader: some View {
         HStack(spacing: 11) {
             Button {
-                dismiss()
+                Task {
+                    await liveActivityController.end()
+                    dismiss()
+                }
             } label: {
                 Image(systemName: "chevron.backward")
                     .font(.body.weight(.semibold))
@@ -73,17 +101,17 @@ struct WorkspacePreviewView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("WebSpeak")
                     .font(.headline)
-                Text("界面预览")
+                Text("离线体验 Demo")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
             Spacer()
 
-            Image(systemName: "circle.dashed")
+            Image(systemName: "eye")
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(.secondary)
-            Text("未连接")
+            Text("示例数据")
                 .font(.caption.weight(.medium))
                 .foregroundStyle(.secondary)
         }
@@ -161,7 +189,12 @@ struct WorkspacePreviewView: View {
     private func tabContent(_ tab: WorkspaceTab) -> some View {
         switch tab {
         case .voice:
-            VoiceActivityPreview(microphoneMuted: $microphoneMuted, pushToTalkActive: $pushToTalkActive)
+            VoiceActivityPreview(
+                microphoneMuted: $microphoneMuted,
+                speakerMuted: $speakerMuted,
+                pushToTalkActive: $pushToTalkActive,
+                liveActivityController: liveActivityController
+            )
         case .channels:
             ChannelsPreview()
         case .chat:
@@ -174,7 +207,9 @@ struct WorkspacePreviewView: View {
 
 private struct VoiceActivityPreview: View {
     @Binding var microphoneMuted: Bool
+    @Binding var speakerMuted: Bool
     @Binding var pushToTalkActive: Bool
+    @ObservedObject var liveActivityController: DemoLiveActivityController
 
     private let columns = [GridItem(.adaptive(minimum: 145), spacing: 13)]
 
@@ -182,6 +217,7 @@ private struct VoiceActivityPreview: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 PrototypeNotice()
+                DemoLiveActivityStatusCard(controller: liveActivityController)
 
                 VStack(alignment: .leading, spacing: 5) {
                     SectionEyebrow(title: "语音活动")
@@ -216,7 +252,16 @@ private struct VoiceActivityPreview: View {
                 LazyVGrid(columns: columns, spacing: 13) {
                     MemberPreviewCard(name: "阿澈", detail: "正在说话", symbol: "waveform", speaking: true)
                     MemberPreviewCard(name: "北极星", detail: "已连接", symbol: "person.fill", speaking: false)
-                    MemberPreviewCard(name: "你", detail: microphoneMuted ? "麦克风已静音" : "你的设备", symbol: microphoneMuted ? "mic.slash.fill" : "mic.fill", speaking: false)
+                    MemberPreviewCard(
+                        name: "你",
+                        detail: pushToTalkActive
+                            ? "示例 PTT 发言中"
+                            : (speakerMuted ? "扬声器已关闭" : (microphoneMuted ? "麦克风已静音" : "你的设备")),
+                        symbol: pushToTalkActive
+                            ? "waveform"
+                            : (speakerMuted ? "speaker.slash.fill" : (microphoneMuted ? "mic.slash.fill" : "mic.fill")),
+                        speaking: pushToTalkActive
+                    )
                 }
 
                 ScreenSharePreviewCard()
@@ -233,19 +278,31 @@ private struct VoiceActivityPreview: View {
 
                     HStack(spacing: 12) {
                         PreviewControlButton(
-                            title: microphoneMuted ? "开启麦克风" : "静音麦克风",
+                            title: microphoneMuted ? "模拟开启麦克风" : "模拟静音麦克风",
                             symbol: microphoneMuted ? "mic.fill" : "mic.slash.fill",
                             emphasized: microphoneMuted,
-                            action: { microphoneMuted.toggle() }
+                            action: { toggleDemoMicrophone() }
                         )
 
                         PreviewControlButton(
-                            title: pushToTalkActive ? "按住说话中" : "按住说话",
-                            symbol: "hand.tap.fill",
-                            emphasized: pushToTalkActive,
-                            action: { pushToTalkActive.toggle() }
+                            title: speakerMuted ? "模拟开启扬声器" : "模拟关闭扬声器",
+                            symbol: speakerMuted ? "speaker.wave.2.fill" : "speaker.slash.fill",
+                            emphasized: speakerMuted,
+                            action: { toggleDemoSpeaker() }
                         )
                     }
+
+                    PreviewControlButton(
+                        title: pushToTalkActive ? "模拟 PTT 发言中" : "模拟 PTT 待机",
+                        symbol: pushToTalkActive ? "mic.fill" : "hand.tap.fill",
+                        emphasized: pushToTalkActive,
+                        action: { toggleDemoPushToTalk() }
+                    )
+
+                    Text("这些按钮只改变示例状态；不会启用真实麦克风或扬声器。")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(16)
                 .webSpeakGlassCard(cornerRadius: 21)
@@ -257,6 +314,75 @@ private struct VoiceActivityPreview: View {
             .frame(maxWidth: .infinity)
         }
         .scrollIndicators(.hidden)
+    }
+
+    private func toggleDemoMicrophone() {
+        guard !speakerMuted || !microphoneMuted else { return }
+        microphoneMuted.toggle()
+        if !microphoneMuted { pushToTalkActive = false }
+    }
+
+    private func toggleDemoSpeaker() {
+        speakerMuted.toggle()
+        if speakerMuted {
+            microphoneMuted = true
+            pushToTalkActive = false
+        }
+    }
+
+    private func toggleDemoPushToTalk() {
+        guard !speakerMuted else {
+            microphoneMuted = true
+            pushToTalkActive = false
+            return
+        }
+        pushToTalkActive.toggle()
+        if pushToTalkActive { microphoneMuted = false }
+    }
+}
+
+private struct DemoLiveActivityStatusCard: View {
+    @ObservedObject var controller: DemoLiveActivityController
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 9) {
+                Image(systemName: controller.status == .active ? "checkmark.circle.fill" : "sparkles")
+                    .foregroundStyle(controller.status == .active ? Color.green : Color.webSpeakBlue)
+
+                Text("灵动岛示例")
+                    .font(.subheadline.weight(.semibold))
+
+                Spacer()
+
+                if controller.status == .starting {
+                    ProgressView()
+                        .controlSize(.small)
+                }
+            }
+
+            Text(controller.status.message)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            if controller.status.canRetry {
+                Button {
+                    controller.start()
+                } label: {
+                    Label("重试灵动岛示例", systemImage: "arrow.clockwise")
+                        .font(.caption.weight(.semibold))
+                }
+                .buttonStyle(.borderless)
+            }
+
+            Text("仅支持灵动岛的 iPhone 会显示在岛上；这里的麦克风和扬声器状态均为模拟。")
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(15)
+        .webSpeakGlassCard(cornerRadius: 19)
     }
 }
 
@@ -311,7 +437,7 @@ private struct ScreenSharePreviewCard: View {
                 Label("屏幕共享", systemImage: "rectangle.on.rectangle")
                     .font(.subheadline.weight(.semibold))
                 Spacer()
-                Text("待接入")
+                Text("示例画面")
                     .font(.caption.weight(.medium))
                     .foregroundStyle(.secondary)
             }
@@ -320,12 +446,12 @@ private struct ScreenSharePreviewCard: View {
                 RoundedRectangle(cornerRadius: 17, style: .continuous)
                     .fill(Color.primary.opacity(0.035))
                 VStack(spacing: 8) {
-                    Image(systemName: "display")
+                    Image(systemName: "rectangle.on.rectangle")
                         .font(.system(size: 27, weight: .light))
                         .foregroundStyle(Color.webSpeakBlue.opacity(0.8))
-                    Text("共享开始后会显示在这里")
+                    Text("语音频道屏幕共享")
                         .font(.subheadline.weight(.medium))
-                    Text("支持观看与发起共享的原生入口")
+                    Text("离线示例画面，不连接真实设备")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -356,7 +482,7 @@ private struct PreviewControlButton: View {
                 }
         }
         .buttonStyle(.plain)
-        .accessibilityHint("仅切换原型预览状态，不控制麦克风")
+        .accessibilityHint("仅切换示例状态；不会控制真实音频设备")
     }
 }
 
@@ -535,11 +661,11 @@ private struct SettingsPreview: View {
                     Divider().padding(.leading, 54)
                     SettingsPreviewRow(title: "外观", detail: "系统浅色 / 深色", symbol: "circle.lefthalf.filled")
                     Divider().padding(.leading, 54)
-                    SettingsPreviewRow(title: "网络诊断", detail: "延迟、丢包与 WebRTC 统计", symbol: "chart.xyaxis.line")
+                    SettingsPreviewRow(title: "网络诊断", detail: "网关与 TeamSpeak 延迟", symbol: "chart.xyaxis.line")
                 }
                 .webSpeakGlassCard(cornerRadius: 21)
 
-                Label("具体选项会在连接和媒体能力接入后开放。", systemImage: "info.circle")
+                Label("此页仅展示设置样式；示例不会修改真实偏好。", systemImage: "info.circle")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

@@ -1,6 +1,8 @@
 import ActivityKit
+import Combine
 import Foundation
 import os
+import SwiftUI
 
 @MainActor
 final class VoiceSessionLiveActivityController {
@@ -73,6 +75,135 @@ final class VoiceSessionLiveActivityController {
             .filter { $0.attributes.sessionID == sessionID }
         for activity in activities {
             await activity.end(nil, dismissalPolicy: .immediate)
+        }
+    }
+}
+
+@MainActor
+final class DemoLiveActivityController: ObservableObject {
+    enum Status: Equatable {
+        case idle
+        case starting
+        case active
+        case unavailable
+        case failed
+
+        var message: LocalizedStringKey {
+            switch self {
+            case .idle:
+                return "灵动岛示例尚未启动。"
+            case .starting:
+                return "正在启动示例 Live Activity…"
+            case .active:
+                return "示例 Live Activity 已启动。"
+            case .unavailable:
+                return "Live Activities 当前已关闭，请检查系统设置后重试。"
+            case .failed:
+                return "系统暂时无法启动示例 Live Activity，请稍后重试。"
+            }
+        }
+
+        var canRetry: Bool {
+            self == .idle || self == .unavailable || self == .failed
+        }
+    }
+
+    @Published private(set) var status: Status = .idle
+
+    private var activity: Activity<WebSpeakVoiceLiveActivityAttributes>?
+    private var startTask: Task<Void, Never>?
+    private var updateTask: Task<Void, Never>?
+    private var microphoneMuted = false
+    private var speakerMuted = false
+    private var pushToTalkActive = false
+
+    func start() {
+        guard ActivityAuthorizationInfo().areActivitiesEnabled else {
+            status = .unavailable
+            return
+        }
+        guard activity == nil, startTask == nil else { return }
+
+        status = .starting
+        let sessionID = WebSpeakVoiceLiveActivityAttributes.demoSessionIDPrefix + UUID().uuidString
+
+        startTask = Task { @MainActor in
+            defer { startTask = nil }
+
+            for previousDemo in Activity<WebSpeakVoiceLiveActivityAttributes>.activities
+                where previousDemo.attributes.isDemo
+            {
+                await previousDemo.end(nil, dismissalPolicy: .immediate)
+            }
+
+            guard !Task.isCancelled else {
+                status = .idle
+                return
+            }
+
+            do {
+                activity = try Activity.request(
+                    attributes: WebSpeakVoiceLiveActivityAttributes(sessionID: sessionID),
+                    content: ActivityContent(state: contentState, staleDate: nil),
+                    pushType: nil
+                )
+                status = .active
+            } catch {
+                activity = nil
+                status = .failed
+            }
+        }
+    }
+
+    func update(microphoneMuted: Bool, speakerMuted: Bool, pushToTalkActive: Bool) {
+        self.microphoneMuted = microphoneMuted
+        self.speakerMuted = speakerMuted
+        self.pushToTalkActive = pushToTalkActive
+        publishUpdate()
+    }
+
+    func end() async {
+        startTask?.cancel()
+        await startTask?.value
+
+        guard let activity else {
+            status = .idle
+            return
+        }
+
+        self.activity = nil
+        let previousUpdate = updateTask
+        updateTask = Task { @MainActor in
+            await previousUpdate?.value
+            await activity.end(nil, dismissalPolicy: .immediate)
+        }
+        await updateTask?.value
+        updateTask = nil
+        status = .idle
+    }
+
+    private var contentState: WebSpeakVoiceLiveActivityAttributes.ContentState {
+        WebSpeakVoiceLiveActivityAttributes.ContentState(
+            channelName: "夜航语音",
+            memberCount: 3,
+            localeIdentifier: Locale.current.identifier,
+            connectionStatus: .connected,
+            microphoneMuted: microphoneMuted,
+            microphoneMode: pushToTalkActive ? .pushToTalk : .toggle,
+            pushToTalkActive: pushToTalkActive,
+            microphoneToggleEnabled: false,
+            speakerMuted: speakerMuted,
+            screenShareStatus: .none
+        )
+    }
+
+    private func publishUpdate() {
+        guard let activity else { return }
+        let previousUpdate = updateTask
+        updateTask = Task { @MainActor in
+            await previousUpdate?.value
+            guard self.activity?.attributes.sessionID == activity.attributes.sessionID else { return }
+            await activity.update(ActivityContent(state: contentState, staleDate: nil))
         }
     }
 }

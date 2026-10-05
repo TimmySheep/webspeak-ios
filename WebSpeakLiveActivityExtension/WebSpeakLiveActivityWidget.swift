@@ -8,10 +8,17 @@ struct WebSpeakLiveActivityWidget: Widget {
         ActivityConfiguration(for: WebSpeakVoiceLiveActivityAttributes.self) { context in
             VStack(alignment: .leading, spacing: 11) {
                 HStack {
-                    Label("语音会话", systemImage: "waveform")
+                    Label(
+                        context.attributes.isDemo ? "离线示例" : "语音会话",
+                        systemImage: context.attributes.isDemo ? "eye" : "waveform"
+                    )
                         .font(.headline)
                     Spacer()
-                    if context.state.connectionStatus != .connected {
+                    if context.attributes.isDemo {
+                        Text("示例模式")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.blue)
+                    } else if context.state.connectionStatus != .connected {
                         connectionStatus(context.state.connectionStatus)
                             .font(.caption.weight(.semibold))
                     }
@@ -24,7 +31,13 @@ struct WebSpeakLiveActivityWidget: Widget {
                             .lineLimit(1)
                             .layoutPriority(1)
 
-                        if let memberCount = context.state.memberCount {
+                        if context.attributes.isDemo, let memberCount = context.state.memberCount {
+                            Text("离线示例 · \(memberCount) 位成员")
+                                .font(.caption2.weight(.medium))
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.8)
+                        } else if let memberCount = context.state.memberCount {
                             Label("\(memberCount)", systemImage: "person.2.fill")
                                 .font(.caption.weight(.medium))
                                 .foregroundStyle(.secondary)
@@ -66,7 +79,14 @@ struct WebSpeakLiveActivityWidget: Widget {
                             .font(.caption.weight(.semibold))
                             .lineLimit(1)
                             .frame(maxWidth: .infinity)
-                        if let memberCount = context.state.memberCount {
+                        if context.attributes.isDemo, let memberCount = context.state.memberCount {
+                            Text("离线示例 · \(memberCount) 位成员")
+                                .font(.caption2.weight(.medium))
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.7)
+                                .accessibilityLabel("离线示例，\(memberCount) 位成员")
+                        } else if let memberCount = context.state.memberCount {
                             Label("\(memberCount)", systemImage: "person.2.fill")
                                 .font(.caption2.weight(.medium))
                                 .foregroundStyle(.secondary)
@@ -80,17 +100,23 @@ struct WebSpeakLiveActivityWidget: Widget {
                     microphoneAction(context)
                 }
             } compactLeading: {
-                Image(systemName: "waveform")
+                Image(systemName: context.attributes.isDemo ? "eye" : "waveform")
                     .foregroundStyle(.blue)
+                    .accessibilityLabel(context.attributes.isDemo ? "离线示例" : "语音会话")
                     .environment(\.locale, Locale(identifier: context.state.localeIdentifier))
             } compactTrailing: {
-                Image(systemName: context.state.microphoneMuted ? "mic.slash.fill" : "mic.fill")
+                Image(systemName: context.state.microphoneMode == .pushToTalk
+                    ? (context.state.pushToTalkActive ? "mic.fill" : "mic.slash.fill")
+                    : (context.state.microphoneMuted ? "mic.slash.fill" : "mic.fill"))
                     .foregroundStyle(context.state.microphoneMuted ? Color.red : Color.blue)
-                    .accessibilityLabel(context.state.microphoneMuted ? "麦克风静音" : "麦克风开启")
+                    .accessibilityLabel(context.attributes.isDemo
+                        ? (context.state.microphoneMuted ? "示例麦克风静音" : "示例麦克风开启")
+                        : (context.state.microphoneMuted ? "麦克风静音" : "麦克风开启"))
                     .environment(\.locale, Locale(identifier: context.state.localeIdentifier))
             } minimal: {
-                Image(systemName: "waveform")
+                Image(systemName: context.attributes.isDemo ? "eye" : "waveform")
                     .foregroundStyle(.blue)
+                    .accessibilityLabel(context.attributes.isDemo ? "离线示例" : "语音会话")
                     .environment(\.locale, Locale(identifier: context.state.localeIdentifier))
             }
             .keylineTint(.blue)
@@ -99,7 +125,21 @@ struct WebSpeakLiveActivityWidget: Widget {
 
     @ViewBuilder
     private func microphoneAction(_ context: ActivityViewContext<WebSpeakVoiceLiveActivityAttributes>) -> some View {
-        if context.state.microphoneMode == .toggle {
+        if context.attributes.isDemo {
+            Image(systemName: context.state.microphoneMode == .pushToTalk
+                ? (context.state.pushToTalkActive ? "mic.fill" : "mic.slash.fill")
+                : (context.state.microphoneMuted ? "mic.slash.fill" : "mic.fill"))
+                .font(.system(size: 17, weight: .semibold))
+                .foregroundStyle(.white)
+                .frame(width: 46, height: 46)
+                .background(context.state.microphoneMuted && !context.state.pushToTalkActive ? Color.red : Color.blue, in: Circle())
+                .overlay {
+                    Circle()
+                        .strokeBorder(Color.white.opacity(0.72), lineWidth: 1)
+                }
+                .accessibilityLabel("示例麦克风状态")
+                .accessibilityHint("仅显示示例状态，不控制真实麦克风")
+        } else if context.state.microphoneMode == .toggle {
             Button(intent: ToggleLiveActivityMicrophoneIntent(sessionID: context.attributes.sessionID)) {
                 Image(systemName: context.state.microphoneMuted ? "mic.slash.fill" : "mic.fill")
                     .font(.system(size: 17, weight: .semibold))
@@ -137,8 +177,9 @@ struct WebSpeakLiveActivityWidget: Widget {
         }
     }
 
+    @ViewBuilder
     private func speakerAction(_ context: ActivityViewContext<WebSpeakVoiceLiveActivityAttributes>) -> some View {
-        Button(intent: ToggleLiveActivitySpeakerIntent(sessionID: context.attributes.sessionID)) {
+        if context.attributes.isDemo {
             Image(systemName: context.state.speakerMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
                 .font(.system(size: 17, weight: .semibold))
                 .foregroundStyle(.white)
@@ -148,11 +189,25 @@ struct WebSpeakLiveActivityWidget: Widget {
                     Circle()
                         .strokeBorder(Color.white.opacity(0.72), lineWidth: 1)
                 }
+                .accessibilityLabel(context.state.speakerMuted ? "示例扬声器关闭" : "示例扬声器开启")
+                .accessibilityHint("仅显示示例状态，不控制真实扬声器")
+        } else {
+            Button(intent: ToggleLiveActivitySpeakerIntent(sessionID: context.attributes.sessionID)) {
+                Image(systemName: context.state.speakerMuted ? "speaker.slash.fill" : "speaker.wave.2.fill")
+                    .font(.system(size: 17, weight: .semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 46, height: 46)
+                    .background(context.state.speakerMuted ? Color.gray.opacity(0.65) : Color.blue, in: Circle())
+                    .overlay {
+                        Circle()
+                            .strokeBorder(Color.white.opacity(0.72), lineWidth: 1)
+                    }
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(context.state.speakerMuted ? "开启扬声器" : "关闭扬声器")
+            .accessibilityHint(context.state.speakerMuted ? "打开扬声器；不会自动开启麦克风" : "关闭扬声器并静音麦克风")
+            .environment(\.locale, Locale(identifier: context.state.localeIdentifier))
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel(context.state.speakerMuted ? "开启扬声器" : "关闭扬声器")
-        .accessibilityHint(context.state.speakerMuted ? "打开扬声器；不会自动开启麦克风" : "关闭扬声器并静音麦克风")
-        .environment(\.locale, Locale(identifier: context.state.localeIdentifier))
     }
 
     @ViewBuilder
