@@ -6,29 +6,49 @@ import WidgetKit
 struct WebSpeakLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: WebSpeakVoiceLiveActivityAttributes.self) { context in
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: 11) {
                 HStack {
                     Label("语音会话", systemImage: "waveform")
                         .font(.headline)
                     Spacer()
-                    connectionStatus(context.state.connectionStatus)
-                        .font(.caption.weight(.semibold))
-                }
-
-                Text(context.state.channelName)
-                    .font(.title3.weight(.bold))
-                    .lineLimit(1)
-
-                HStack(spacing: 14) {
-                    microphoneStatus(context.state)
-                    speakerStatus(context.state.speakerMuted)
-                    if context.state.screenShareStatus != .none {
-                        screenShareStatus(context.state.screenShareStatus)
+                    if context.state.connectionStatus != .connected {
+                        connectionStatus(context.state.connectionStatus)
+                            .font(.caption.weight(.semibold))
                     }
                 }
-                .font(.caption.weight(.medium))
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
+
+                HStack(alignment: .center, spacing: 14) {
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(context.state.channelName)
+                            .font(.title3.weight(.bold))
+                            .lineLimit(1)
+                            .layoutPriority(1)
+
+                        if let memberCount = context.state.memberCount {
+                            Label("\(memberCount)", systemImage: "person.2.fill")
+                                .font(.caption.weight(.medium))
+                                .foregroundStyle(.secondary)
+                                .accessibilityLabel("\(memberCount) 位成员")
+                        }
+                    }
+
+                    Spacer(minLength: 8)
+
+                    VStack(alignment: .leading, spacing: 6) {
+                        microphoneStatus(context.state)
+                        speakerStatus(context.state.speakerMuted)
+                    }
+                    .font(.caption2.weight(.medium))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                }
+
+                if context.state.screenShareStatus != .none {
+                    screenShareStatus(context.state.screenShareStatus)
+                        .font(.caption2.weight(.medium))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                }
             }
             .foregroundStyle(.white)
             .padding(16)
