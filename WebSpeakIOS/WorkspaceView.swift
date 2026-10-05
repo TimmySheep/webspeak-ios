@@ -38,9 +38,7 @@ struct VoiceWorkspaceView: View {
     @State private var selectedSection: WorkspaceSection = .voice
 
     var body: some View {
-        VStack(spacing: 0) {
-            workspaceHeader
-
+        Group {
             if horizontalSizeClass == .regular {
                 iPadWorkspace
             } else {
@@ -59,27 +57,6 @@ struct VoiceWorkspaceView: View {
         .onChange(of: model.selectedChatScope) { _, scope in
             if scope == .privateMessage { selectedSection = .chat }
         }
-    }
-
-    private var workspaceHeader: some View {
-        HStack {
-            Spacer()
-
-            Button(role: .destructive) {
-                model.disconnect()
-            } label: {
-                Label("断开", systemImage: "rectangle.portrait.and.arrow.right")
-                    .labelStyle(.iconOnly)
-                    .font(.body.weight(.medium))
-                    .frame(width: 42, height: 42)
-                    .contentShape(Circle())
-            }
-            .buttonStyle(.borderless)
-            .accessibilityLabel("断开 TeamSpeak 连接")
-        }
-        .padding(.horizontal, 15)
-        .padding(.vertical, 9)
-        .background(.bar)
     }
 
     private var iPadWorkspace: some View {
@@ -309,6 +286,7 @@ private struct VoiceStatusView: View {
         HStack(spacing: 12) {
             microphoneControl
             speakerControl
+            disconnectControl
         }
         .frame(maxWidth: 820)
         .padding(.horizontal, 18)
@@ -317,6 +295,20 @@ private struct VoiceStatusView: View {
         .frame(maxWidth: .infinity)
         .background(.bar)
         .overlay(alignment: .top) { Divider() }
+    }
+
+    private var disconnectControl: some View {
+        Button(role: .destructive) {
+            model.disconnect()
+        } label: {
+            Image(systemName: "rectangle.portrait.and.arrow.right")
+                .font(.body.weight(.medium))
+                .frame(width: 44, height: 48)
+                .contentShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        }
+        .buttonStyle(.bordered)
+        .tint(.red)
+        .accessibilityLabel("断开 TeamSpeak 连接")
     }
 
     @ViewBuilder
@@ -331,6 +323,8 @@ private struct VoiceStatusView: View {
                 )
                 .font(.subheadline.weight(.semibold))
                 .frame(maxWidth: .infinity, minHeight: 48)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
             }
             .buttonStyle(.borderedProminent)
             .tint(model.speakerMuted ? .red : .webSpeakBlue)
